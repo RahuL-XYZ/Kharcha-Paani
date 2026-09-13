@@ -1,0 +1,115 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+    
+    function isUser(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isHouseholdMember(householdId) {
+      return isAuthenticated() && (
+        request.auth.uid in get(/databases/$(database)/documents/households/$(householdId)).data.memberIds ||
+        exists(/databases/$(database)/documents/households/$(householdId)/members/$(request.auth.uid))
+      );
+    }
+    
+    function isHouseholdOwner(householdId) {
+      return isAuthenticated() && (
+        get(/databases/$(database)/documents/households/$(householdId)).data.createdBy == request.auth.uid ||
+        get(/databases/$(database)/documents/households/$(householdId)/members/$(request.auth.uid)).data.role == 'owner'
+      );
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isUser(userId);
+      allow update: if isUser(userId);
+      allow delete: if false; // Deletion disabled for data integrity
+    }
+
+    // Households Collection
+    match /households/{householdId} {
+      // Any authenticated user can query households by inviteCode to join, or read if member
+      allow read: if isAuthenticated() && (
+        resource == null || 
+        request.auth.uid in resource.data.memberIds || 
+        resource.data.isActive == true
+      );
+      
+      // Creating household
+      allow create: if isAuthenticated() && 
+        request.resource.data.createdBy == request.auth.uid &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.inviteCode.size() == 6;
+
+      // Update household metadata
+      allow update: if isAuthenticated() && (
+        // Adding self as a new member via invite code
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['memberIds', 'memberCount']) &&
+         request.resource.data.memberIds.hasAll(resource.data.memberIds) &&
+         request.auth.uid in request.resource.data.memberIds) ||
+        // Household owner updating details
+        isHouseholdOwner(householdId)
+      );
+      
+      allow delete: if false;
+
+      // Members Subcollection
+      match /members/{memberId} {
+        allow read: if isHouseholdMember(householdId);
+        
+        // Allow user to join as self or creator creating owner doc
+        allow create: if isAuthenticated() && (
+          isUser(memberId) || 
+          get(/databases/$(database)/documents/households/$(householdId)).data.createdBy == request.auth.uid
+        );
+        
+        // Only member can update own profile in room, or owner
+        allow update: if isHouseholdMember(householdId) && (
+          isUser(memberId) || isHouseholdOwner(householdId)
+        );
+        
+        // Owner can remove member, or member can leave
+        allow delete: if isHouseholdMember(householdId) && (
+          isUser(memberId) || isHouseholdOwner(householdId)
+        );
+      }
+
+      // Expenses Subcollection
+      match /expenses/{expenseId} {
+        allow read: if isHouseholdMember(householdId);
+        
+        allow create: if isHouseholdMember(householdId) &&
+          request.resource.data.title.size() > 0 &&
+          request.resource.data.amount > 0 &&
+          request.resource.data.participants.size() > 0 &&
+          request.resource.data.createdBy == request.auth.uid;
+          
+        allow update: if isHouseholdMember(householdId) &&
+          request.resource.data.amount > 0 &&
+          (resource.data.createdBy == request.auth.uid || resource.data.paidBy == request.auth.uid || isHouseholdOwner(householdId));
+          
+        allow delete: if isHouseholdMember(householdId) &&
+          (resource.data.createdBy == request.auth.uid || resource.data.paidBy == request.auth.uid || isHouseholdOwner(householdId));
+      }
+
+      // Settlements Subcollection
+      match /settlements/{settlementId} {
+        allow read: if isHouseholdMember(householdId);
+        
+        allow create: if isHouseholdMember(householdId) &&
+          request.resource.data.amount > 0 &&
+          request.resource.data.fromUser != request.resource.data.toUser &&
+          (request.resource.data.fromUser == request.auth.uid || request.resource.data.toUser == request.auth.uid || request.resource.data.createdBy == request.auth.uid);
+          
+        allow update, delete: if false; // Settlements are immutable audit records
+      }
+    }
+  }
+}
