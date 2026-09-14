@@ -61,7 +61,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         return null; // Stay on splash while loading
       }
 
-      if (!isAuth && !isAuthRoute && !isSplash) {
+      if (!isAuth && !isAuthRoute) {
         return RouteNames.login;
       }
 
