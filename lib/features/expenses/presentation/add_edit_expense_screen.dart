@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/constants/expense_categories.dart';
@@ -11,6 +12,8 @@ import '../../household/providers/household_provider.dart';
 import '../providers/expense_provider.dart';
 import 'widgets/category_chip_selector.dart';
 import 'widgets/dynamic_split_section.dart';
+import '../../../core/widgets/shimmer/app_shimmer.dart';
+import '../../../core/widgets/shimmer/shimmer_placeholders.dart';
 
 class AddEditExpenseScreen extends ConsumerStatefulWidget {
   final String householdId;
@@ -101,8 +104,8 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedParticipants.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select at least one roommate to split with.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.expNoParticipantsError),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -116,21 +119,21 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
       if (_selectedSplitType == AppConstants.splitTypeExact) {
         if ((allocated - amount).abs() > 0.01) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Allocated amount must exactly match total amount.')),
+            SnackBar(content: Text(AppLocalizations.of(context)!.expAllocMismatchExact)),
           );
           return;
         }
       } else if (_selectedSplitType == AppConstants.splitTypePercentage) {
         if ((allocated - 100.0).abs() > 0.01) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Allocated percentage must equal 100%.')),
+            SnackBar(content: Text(AppLocalizations.of(context)!.expAllocMismatchPercent)),
           );
           return;
         }
       } else if (_selectedSplitType == AppConstants.splitTypeShares) {
         if (allocated <= 0) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('At least one share must be allocated.')),
+            SnackBar(content: Text(AppLocalizations.of(context)!.expAllocMismatchShares)),
           );
           return;
         }
@@ -178,8 +181,8 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
         SnackBar(
           content: Text(
             widget.initialExpense != null
-                ? 'Expense updated successfully!'
-                : 'Expense added successfully! 🎉',
+                ? AppLocalizations.of(context)!.expUpdatedSuccess
+                : AppLocalizations.of(context)!.expAddedSuccess,
           ),
           behavior: SnackBarBehavior.floating,
         ),
@@ -198,7 +201,7 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Expense' : 'Add Expense'),
+        title: Text(isEditing ? AppLocalizations.of(context)!.expEditTitle : AppLocalizations.of(context)!.expAddTitle),
       ),
       body: membersAsync.when(
         data: (members) {
@@ -274,11 +277,11 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                             ),
                             validator: (val) {
                               if (val == null || val.trim().isEmpty) {
-                                return 'Enter amount';
+                                return AppLocalizations.of(context)!.expAmountEmpty;
                               }
                               final num = double.tryParse(val.trim());
                               if (num == null || num <= 0) {
-                                return 'Amount must be > 0';
+                                return AppLocalizations.of(context)!.expAmountInvalid;
                               }
                               return null;
                             },
@@ -294,14 +297,14 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                 TextFormField(
                   controller: _titleController,
                   textCapitalization: TextCapitalization.sentences,
-                  decoration: const InputDecoration(
-                    labelText: 'Expense Title',
-                    hintText: 'e.g. Grocery, Electricity, Wi-Fi',
-                    prefixIcon: Icon(Icons.receipt_long_outlined),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.expTitleLabel,
+                    hintText: AppLocalizations.of(context)!.expTitleHint,
+                    prefixIcon: const Icon(Icons.receipt_long_outlined),
                   ),
                   validator: (val) {
                     if (val == null || val.trim().isEmpty) {
-                      return 'Please enter a title';
+                      return AppLocalizations.of(context)!.expTitleEmpty;
                     }
                     return null;
                   },
@@ -346,7 +349,7 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
 
                 // Category Selector
                 Text(
-                  'Category',
+                  AppLocalizations.of(context)!.expCategoryLabel,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -364,7 +367,7 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
 
                 // Paid By Selector
                 Text(
-                  'Paid by',
+                  AppLocalizations.of(context)!.expPaidByLabel,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -459,8 +462,8 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                   ),
                   leading: const Icon(Icons.calendar_today_outlined,
                       color: AppColors.primary),
-                  title: const Text(
-                    'Date',
+                  title: Text(
+                    AppLocalizations.of(context)!.expDateLabel,
                     style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                   ),
                   subtitle: Text(
@@ -477,10 +480,10 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                 TextFormField(
                   controller: _notesController,
                   maxLines: 2,
-                  decoration: const InputDecoration(
-                    labelText: 'Notes (Optional)',
-                    hintText: 'e.g. Bought from Supermarket, Bill #48',
-                    prefixIcon: Icon(Icons.notes_outlined),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.expNotesLabel,
+                    hintText: AppLocalizations.of(context)!.expNotesHint,
+                    prefixIcon: const Icon(Icons.notes_outlined),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -498,14 +501,28 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : Text(isEditing ? 'Save Changes' : 'Add Expense'),
+                      : Text(isEditing ? AppLocalizations.of(context)!.expSaveBtn : AppLocalizations.of(context)!.expAddTitle),
                 ),
                 const SizedBox(height: 32),
               ],
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const AppShimmer(
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerBox(height: 56),
+                SizedBox(height: 16),
+                ShimmerBox(height: 56),
+                SizedBox(height: 16),
+                ShimmerCard(height: 120, borderRadius: 20),
+              ],
+            ),
+          ),
+        ),
         error: (err, _) => Center(child: Text('Error: $err')),
       ),
     );

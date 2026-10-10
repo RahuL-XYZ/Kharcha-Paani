@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../models/household_model.dart';
@@ -63,7 +64,7 @@ class HouseholdCard extends ConsumerWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -108,7 +109,7 @@ class HouseholdCard extends ConsumerWidget {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '${household.memberCount} ${household.memberCount == 1 ? 'member' : 'members'}',
+                              AppLocalizations.of(context)!.homeMemberCount(household.memberCount),
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             const SizedBox(width: 10),
@@ -160,7 +161,7 @@ class HouseholdCard extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Total expenses',
+                            AppLocalizations.of(context)!.homeTotalExpenses,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(height: 4),
@@ -209,10 +210,10 @@ class HouseholdCard extends ConsumerWidget {
                             const SizedBox(width: 6),
                             Text(
                               isOwed
-                                  ? 'You receive ${CurrencyFormatter.formatPaise(summary.youShouldReceivePaise)}'
+                                  ? AppLocalizations.of(context)!.homeYouReceive(CurrencyFormatter.formatPaise(summary.youShouldReceivePaise))
                                   : owes
-                                      ? 'You owe ${CurrencyFormatter.formatPaise(summary.youOwePaise)}'
-                                      : 'Settled up',
+                                      ? AppLocalizations.of(context)!.homeYouOwe(CurrencyFormatter.formatPaise(summary.youOwePaise))
+                                      : AppLocalizations.of(context)!.homeSettledUpBadge,
                               style: TextStyle(
                                 color: isOwed
                                     ? AppColors.positive
@@ -240,7 +241,7 @@ class HouseholdCard extends ConsumerWidget {
                   ),
                 ),
                 error: (_, _) => Text(
-                  'Tap to view details',
+                  AppLocalizations.of(context)!.homeTapDetails,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),

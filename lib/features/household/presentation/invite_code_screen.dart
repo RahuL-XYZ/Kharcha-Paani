@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
-
 import 'package:share_plus/share_plus.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 
 class InviteCodeScreen extends StatelessWidget {
   final String householdId;
@@ -53,7 +53,7 @@ class InviteCodeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                'Your household is ready 🎉',
+                AppLocalizations.of(context)!.hhReadyTitle,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w800,
                       letterSpacing: -0.5,
@@ -84,7 +84,7 @@ class InviteCodeScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'INVITE CODE',
+                      AppLocalizations.of(context)!.hhInviteCodeLabel,
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                             letterSpacing: 2,
                             color: AppColors.textSecondaryLight,
@@ -104,7 +104,7 @@ class InviteCodeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Share this 6-character code with your roommates so they can join your room.',
+                      AppLocalizations.of(context)!.hhShareCodeDesc,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
@@ -121,15 +121,15 @@ class InviteCodeScreen extends StatelessWidget {
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: inviteCode));
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Invite code copied to clipboard!'),
-                            duration: Duration(seconds: 2),
+                          SnackBar(
+                            content: Text(AppLocalizations.of(context)!.hhCodeCopied),
+                            duration: const Duration(seconds: 2),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
                       },
                       icon: const Icon(Icons.copy_outlined),
-                      label: const Text('Copy'),
+                      label: Text(AppLocalizations.of(context)!.hhCopyBtn),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -137,13 +137,11 @@ class InviteCodeScreen extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: () {
                         Share.share(
-                          'Hey! I created a room for us on Kharcha Paani: "$householdName".\n\n'
-                          'Join using my invite code: *$inviteCode*\n\n'
-                          'Download the app to split our expenses easily!'
+                          AppLocalizations.of(context)!.hhShareText(householdName, inviteCode)
                         );
                       },
                       icon: const Icon(Icons.share_outlined),
-                      label: const Text('Share'),
+                      label: Text(AppLocalizations.of(context)!.hhShareBtn),
                     ),
                   ),
                 ],
@@ -155,7 +153,7 @@ class InviteCodeScreen extends StatelessWidget {
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () => context.go('/household/$householdId'),
-                  child: const Text('Go to Household'),
+                  child: Text(AppLocalizations.of(context)!.hhGoToHouseholdBtn),
                 ),
               ),
               const SizedBox(height: 16),
@@ -166,3 +164,4 @@ class InviteCodeScreen extends StatelessWidget {
     );
   }
 }
+

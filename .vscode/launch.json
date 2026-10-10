@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "kharcha_paani (Flutter CPH2487)",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Flutter",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

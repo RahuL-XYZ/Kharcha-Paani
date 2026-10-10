@@ -6,6 +6,8 @@ import '../../../../core/routing/route_names.dart';
 import '../../../../models/household_model.dart';
 import '../../../balances/providers/balance_provider.dart';
 import '../../providers/household_provider.dart';
+import '../../../../core/widgets/shimmer/app_shimmer.dart';
+import '../../../../core/widgets/shimmer/shimmer_placeholders.dart';
 
 class GroupSwitcherModal extends ConsumerWidget {
   final String currentHouseholdId;
@@ -151,9 +153,18 @@ class GroupSwitcherModal extends ConsumerWidget {
                     },
                   );
                 },
-                loading: () => const Padding(
-                  padding: EdgeInsets.all(40),
-                  child: Center(child: CircularProgressIndicator()),
+                loading: () => const AppShimmer(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ShimmerCard(height: 64, borderRadius: 16),
+                        SizedBox(height: 10),
+                        ShimmerCard(height: 64, borderRadius: 16),
+                      ],
+                    ),
+                  ),
                 ),
                 error: (err, _) => Padding(
                   padding: const EdgeInsets.all(24),

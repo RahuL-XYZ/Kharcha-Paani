@@ -6,6 +6,8 @@ import '../../../core/utils/currency_formatter.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../analytics/providers/analytics_provider.dart';
 import '../../expenses/providers/expense_provider.dart';
+import '../../../core/ads/widgets/anchored_banner_ad.dart';
+import '../../../core/widgets/shimmer/skeletons/analytics_shimmer.dart';
 
 class MonthlyAnalyticsScreen extends ConsumerWidget {
   final String householdId;
@@ -29,6 +31,7 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Spending Analytics'),
       ),
+      bottomNavigationBar: const AnchoredBannerAd(),
       body: expensesAsync.when(
         data: (expenses) {
           if (expenses.isEmpty) {
@@ -260,7 +263,7 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const MonthlyAnalyticsShimmer(),
         error: (err, _) => Center(child: Text('Error: $err')),
       ),
     );

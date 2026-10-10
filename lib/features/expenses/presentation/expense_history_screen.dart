@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/currency_formatter.dart';
 import '../../../core/utils/date_formatter.dart';
@@ -10,7 +11,9 @@ import '../providers/expense_provider.dart';
 import 'add_edit_expense_screen.dart';
 import 'expense_detail_screen.dart';
 import 'widgets/expense_filter_dialog.dart';
+import '../../../core/ads/widgets/inline_native_ad.dart';
 import 'widgets/expense_list_tile.dart';
+import '../../../core/ads/widgets/anchored_banner_ad.dart';
 
 class ExpenseHistoryScreen extends ConsumerWidget {
   final String householdId;
@@ -43,7 +46,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Expense History'),
+        title: Text(AppLocalizations.of(context)!.expHistoryTitle),
         actions: [
           IconButton(
             icon: Badge(
@@ -64,6 +67,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
+      bottomNavigationBar: const AnchoredBannerAd(),
       body: Column(
         children: [
           // Search Bar
@@ -71,7 +75,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Search by title or notes...',
+                hintText: AppLocalizations.of(context)!.expSearchHint,
                 prefixIcon: const Icon(Icons.search, size: 20),
                 suffixIcon: filterState.searchQuery.isNotEmpty
                     ? IconButton(
@@ -105,7 +109,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 6),
                       child: Chip(
-                        label: Text('Cat: ${filterState.category}'),
+                        label: Text(AppLocalizations.of(context)!.expCatFilter(filterState.category!)),
                         deleteIcon: const Icon(Icons.close, size: 14),
                         onDeleted: () {
                           ref
@@ -119,7 +123,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(right: 6),
                       child: Chip(
                         label: Text(
-                          'Member: ${members.where((m) => m.id == filterState.memberId).firstOrNull?.name ?? 'Selected'}',
+                          AppLocalizations.of(context)!.expMemberFilter(members.where((m) => m.id == filterState.memberId).firstOrNull?.name ?? AppLocalizations.of(context)!.expSelected),
                         ),
                         deleteIcon: const Icon(Icons.close, size: 14),
                         onDeleted: () {
@@ -133,7 +137,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 6),
                       child: Chip(
-                        label: const Text('Date filtered'),
+                        label: Text(AppLocalizations.of(context)!.expDateFiltered),
                         deleteIcon: const Icon(Icons.close, size: 14),
                         onDeleted: () {
                           ref
@@ -160,15 +164,15 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                         const SizedBox(height: 12),
                         Text(
                           filterState.hasActiveFilters
-                              ? 'No matching expenses found'
-                              : 'No expenses recorded yet',
+                              ? AppLocalizations.of(context)!.expNoMatch
+                              : AppLocalizations.of(context)!.expNoExpensesYet,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 6),
                         Text(
                           filterState.hasActiveFilters
-                              ? 'Try adjusting your filters'
-                              : 'Tap + to add your first shared expense',
+                              ? AppLocalizations.of(context)!.expAdjustFilters
+                              : AppLocalizations.of(context)!.expTapToAdd,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -209,7 +213,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                                       ),
                                 ),
                                 Text(
-                                  'Total ${CurrencyFormatter.formatRupees(monthTotal)}',
+                                  AppLocalizations.of(context)!.expTotalAmount(CurrencyFormatter.formatRupees(monthTotal)),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
@@ -221,24 +225,32 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                           ),
 
                           // Month Expenses
-                          ...monthExpenses.map(
-                            (expense) => ExpenseListTile(
-                              expense: expense,
-                              members: members,
-                              currentUserId: currentUserId,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ExpenseDetailScreen(
-                                      householdId: householdId,
-                                      expenseId: expense.id,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                          ...monthExpenses.asMap().entries.map((entry) {
+                            final i = entry.key;
+                            final expense = entry.value;
+                            return Column(
+                              children: [
+                                // Show an inline ad after every 5 expenses
+                                if (i > 0 && i % 5 == 0) const InlineNativeAd(),
+                                ExpenseListTile(
+                                  expense: expense,
+                                  members: members,
+                                  currentUserId: currentUserId,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ExpenseDetailScreen(
+                                          householdId: householdId,
+                                          expenseId: expense.id,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                           const SizedBox(height: 12),
                         ],
                       );
@@ -257,7 +269,7 @@ class ExpenseHistoryScreen extends ConsumerWidget {
           );
         },
         icon: const Icon(Icons.add),
-        label: const Text('Add Expense'),
+        label: Text(AppLocalizations.of(context)!.expAddTitle),
       ),
     );
   }

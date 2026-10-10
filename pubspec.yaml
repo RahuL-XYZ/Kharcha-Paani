@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # Navigation & State Management
   flutter_riverpod: ^2.6.1
@@ -46,6 +48,8 @@ dependencies:
   shared_preferences: ^2.5.2
   cupertino_icons: ^1.0.8
   share_plus: ^13.3.0
+  google_mobile_ads: ^9.1.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +77,7 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

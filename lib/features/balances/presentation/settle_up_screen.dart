@@ -5,6 +5,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../household/providers/household_provider.dart';
 import '../../settlements/providers/settlement_provider.dart';
+import '../../../core/widgets/shimmer/skeletons/balances_shimmers.dart';
 
 class SettleUpScreen extends ConsumerStatefulWidget {
   final String householdId;
@@ -292,7 +293,7 @@ class _SettleUpScreenState extends ConsumerState<SettleUpScreen> {
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SettleUpShimmer(),
         error: (err, _) => Center(child: Text('Error: $err')),
       ),
     );

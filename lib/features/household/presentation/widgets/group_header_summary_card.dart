@@ -3,6 +3,7 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../models/household_model.dart';
 import '../../../../services/expense_calculation_service.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 
 class GroupHeaderSummaryCard extends StatelessWidget {
   final HouseholdModel household;
@@ -46,10 +47,10 @@ class GroupHeaderSummaryCard extends StatelessWidget {
             : (isDark ? Colors.white70 : AppColors.textSecondaryLight);
 
     final statusTitle = isOwed
-        ? 'You are owed'
+        ? AppLocalizations.of(context)!.hhYouAreOwed
         : owes
-            ? 'You owe'
-            : 'You are settled up';
+            ? AppLocalizations.of(context)!.hhYouOwe
+            : AppLocalizations.of(context)!.hhYouAreSettledUp;
 
     final statusAmount = isOwed
         ? CurrencyFormatter.formatPaise(summary.youShouldReceivePaise)
@@ -138,7 +139,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          '${household.memberCount} ${household.memberCount == 1 ? 'member' : 'members'}',
+                          AppLocalizations.of(context)!.homeMemberCount(household.memberCount),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -182,7 +183,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Total group spend',
+                      AppLocalizations.of(context)!.hhTotalGroupSpend,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -241,7 +242,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        isSettled ? 'All settled up! 🎉' : statusAmount,
+                        isSettled ? AppLocalizations.of(context)!.hhAllSettledUp : statusAmount,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w900,
@@ -273,7 +274,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'You paid',
+                        AppLocalizations.of(context)!.hhYouPaid,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
@@ -305,7 +306,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Your share',
+                        AppLocalizations.of(context)!.hhYourShare,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
@@ -336,7 +337,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: onSettleUp,
                   icon: const Icon(Icons.handshake_rounded, size: 18),
-                  label: const Text('Settle Up'),
+                  label: Text(AppLocalizations.of(context)!.hhSettleUp),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -355,7 +356,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: onAddExpense,
                   icon: const Icon(Icons.add_rounded, size: 18),
-                  label: const Text('Add Expense'),
+                  label: Text(AppLocalizations.of(context)!.expAddTitle),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(

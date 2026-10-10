@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/theme/theme_provider.dart';
+import '../../../core/localization/locale_provider.dart';
 import '../../../core/widgets/app_logo.dart';
 import '../../auth/providers/auth_provider.dart';
 
@@ -19,20 +21,20 @@ class ProfileScreen extends ConsumerWidget {
     final updated = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Edit Name'),
+        title: Text(AppLocalizations.of(context)!.profileEditName),
         content: Form(
           key: formKey,
           child: TextFormField(
             controller: controller,
             autofocus: true,
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(
-              labelText: 'Full Name',
-              hintText: 'Enter your name',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.profileFullName,
+              hintText: AppLocalizations.of(context)!.profileNameHint,
             ),
             validator: (val) {
               if (val == null || val.trim().isEmpty) {
-                return 'Name cannot be empty';
+                return AppLocalizations.of(context)!.profileNameEmptyError;
               }
               return null;
             },
@@ -41,7 +43,7 @@ class ProfileScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.profileCancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -49,7 +51,7 @@ class ProfileScreen extends ConsumerWidget {
                 Navigator.pop(ctx, controller.text.trim());
               }
             },
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(context)!.profileSave),
           ),
         ],
       ),
@@ -62,8 +64,8 @@ class ProfileScreen extends ConsumerWidget {
       ref.invalidate(authStateChangesProvider);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Profile updated successfully!'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.profileUpdatedMsg),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -75,19 +77,19 @@ class ProfileScreen extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Log Out'),
-        content: const Text('Are you sure you want to log out of Kharcha Paani?'),
+        title: Text(AppLocalizations.of(context)!.profileLogoutTitle),
+        content: Text(AppLocalizations.of(context)!.profileLogoutConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.profileCancel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.negative,
             ),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Log Out'),
+            child: Text(AppLocalizations.of(context)!.profileLogoutTitle),
           ),
         ],
       ),
@@ -114,7 +116,7 @@ class ProfileScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile & Settings'),
+        title: Text(AppLocalizations.of(context)!.profileTitle),
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -158,9 +160,9 @@ class ProfileScreen extends ConsumerWidget {
                         const SizedBox(height: 8),
                         InkWell(
                           onTap: () => _editName(context, ref, name),
-                          child: const Text(
-                            'Edit Name',
-                            style: TextStyle(
+                          child: Text(
+                            AppLocalizations.of(context)!.profileEditName,
+                            style: const TextStyle(
                               color: AppColors.primary,
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -176,71 +178,115 @@ class ProfileScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
 
-          // // Appearance Section Header
-          // Text(
-          //   'Appearance',
-          //   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-          //         fontWeight: FontWeight.w700,
-          //       ),
-          // ),
-          // const SizedBox(height: 8),
+          // Appearance Section Header
+          Text(
+            AppLocalizations.of(context)!.profileAppearance,
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+          const SizedBox(height: 8),
 
-          // // Theme Selector Tile
-          // Card(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(16),
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Row(
-          //           children: [
-          //             const Icon(Icons.palette_outlined,
-          //                 color: AppColors.primary, size: 22),
-          //             const SizedBox(width: 12),
-          //             const Text(
-          //               'Theme Mode',
-          //               style: TextStyle(
-          //                 fontWeight: FontWeight.w700,
-          //                 fontSize: 15,
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //         const SizedBox(height: 14),
-          //         SegmentedButton<ThemeMode>(
-          //           segments: const [
-          //             ButtonSegment(
-          //               value: ThemeMode.system,
-          //               icon: Icon(Icons.brightness_auto, size: 16),
-          //               label: Text('System'),
-          //             ),
-          //             ButtonSegment(
-          //               value: ThemeMode.light,
-          //               icon: Icon(Icons.light_mode_outlined, size: 16),
-          //               label: Text('Light'),
-          //             ),
-          //             ButtonSegment(
-          //               value: ThemeMode.dark,
-          //               icon: Icon(Icons.dark_mode_outlined, size: 16),
-          //               label: Text('Dark'),
-          //             ),
-          //           ],
-          //           selected: {themeMode},
-          //           onSelectionChanged: (set) {
-          //             ref
-          //                 .read(themeModeProvider.notifier)
-          //                 .setThemeMode(set.first);
-          //           },
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 24),
+          // Theme Selector Tile
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.palette_outlined,
+                          color: AppColors.primary, size: 22),
+                      const SizedBox(width: 12),
+                      Text(
+                        AppLocalizations.of(context)!.profileThemeMode,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  SegmentedButton<ThemeMode>(
+                    segments: [
+                      ButtonSegment(
+                        value: ThemeMode.system,
+                        icon: const Icon(Icons.brightness_auto, size: 16),
+                        label: Text(AppLocalizations.of(context)!.profileThemeSystem),
+                      ),
+                      ButtonSegment(
+                        value: ThemeMode.light,
+                        icon: const Icon(Icons.light_mode_outlined, size: 16),
+                        label: Text(AppLocalizations.of(context)!.profileThemeLight),
+                      ),
+                      ButtonSegment(
+                        value: ThemeMode.dark,
+                        icon: const Icon(Icons.dark_mode_outlined, size: 16),
+                        label: Text(AppLocalizations.of(context)!.profileThemeDark),
+                      ),
+                    ],
+                    selected: {themeMode},
+                    onSelectionChanged: (set) {
+                      ref
+                          .read(themeModeProvider.notifier)
+                          .setThemeMode(set.first);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // Language Selector Tile
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.language_outlined,
+                          color: AppColors.primary, size: 22),
+                      const SizedBox(width: 12),
+                      Text(
+                        AppLocalizations.of(context)!.profileLanguage,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  SegmentedButton<String>(
+                    segments: [
+                      ButtonSegment(
+                        value: 'en',
+                        label: Text(AppLocalizations.of(context)!.profileLanguageEn),
+                      ),
+                      ButtonSegment(
+                        value: 'hi',
+                        label: Text(AppLocalizations.of(context)!.profileLanguageHi),
+                      ),
+                    ],
+                    selected: {ref.watch(localeProvider)?.languageCode ?? 'en'},
+                    onSelectionChanged: (set) {
+                      ref.read(localeProvider.notifier).setLocale(Locale(set.first));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
 
           // // About & App Info Section
           Text(
-            'About',
+            AppLocalizations.of(context)!.profileAbout,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -251,8 +297,8 @@ class ProfileScreen extends ConsumerWidget {
               children: [
                 ListTile(
                   leading: const Icon(Icons.info_outline, color: AppColors.secondary),
-                  title: const Text('About Kharcha Paani'),
-                  subtitle: const Text('Version 1.0.0 • Roommate Expense Sharing'),
+                  title: Text(AppLocalizations.of(context)!.profileAboutApp),
+                  subtitle: Text(AppLocalizations.of(context)!.profileAboutSub),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     showAboutDialog(
@@ -267,8 +313,8 @@ class ProfileScreen extends ConsumerWidget {
                 const Divider(height: 1),
                 ListTile(
                   leading: const Icon(Icons.security_outlined, color: AppColors.primary),
-                  title: const Text('Security & Calculations'),
-                  subtitle: const Text('Integer paise precision • Zero float errors'),
+                  title: Text(AppLocalizations.of(context)!.profileSecurity),
+                  subtitle: Text(AppLocalizations.of(context)!.profileSecuritySub),
                 ),
               ],
             ),
@@ -285,7 +331,7 @@ class ProfileScreen extends ConsumerWidget {
                 side: const BorderSide(color: AppColors.negative, width: 1.5),
               ),
               icon: const Icon(Icons.logout, size: 18),
-              label: const Text('Log Out'),
+              label: Text(AppLocalizations.of(context)!.profileLogoutTitle),
             ),
           ),
           const SizedBox(height: 40),

@@ -5,6 +5,8 @@ import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../models/household_member_model.dart';
 import '../../../balances/providers/balance_provider.dart';
+import '../../../../core/widgets/shimmer/app_shimmer.dart';
+import '../../../../core/widgets/shimmer/shimmer_placeholders.dart';
 
 class MemberBreakdownModal extends ConsumerWidget {
   final String householdId;
@@ -324,10 +326,16 @@ class MemberBreakdownModal extends ConsumerWidget {
                   ],
                 );
               },
-              loading: () => const Center(
+              loading: () => const AppShimmer(
                 child: Padding(
-                  padding: EdgeInsets.all(40),
-                  child: CircularProgressIndicator(),
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      ShimmerCard(height: 56, borderRadius: 16),
+                      SizedBox(height: 10),
+                      ShimmerCard(height: 56, borderRadius: 16),
+                    ],
+                  ),
                 ),
               ),
               error: (err, _) => Center(

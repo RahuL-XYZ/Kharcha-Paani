@@ -8,6 +8,7 @@ import '../../settlements/presentation/settlement_history_screen.dart';
 import 'settle_up_screen.dart';
 import 'widgets/member_balance_card.dart';
 import 'widgets/settlement_transfer_card.dart';
+import '../../../core/widgets/shimmer/skeletons/balances_shimmers.dart';
 
 class BalancesScreen extends ConsumerWidget {
   final String householdId;
@@ -195,7 +196,7 @@ class BalancesScreen extends ConsumerWidget {
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const BalancesScreenShimmer(),
         error: (err, _) => Center(child: Text('Error: $err')),
       ),
     );

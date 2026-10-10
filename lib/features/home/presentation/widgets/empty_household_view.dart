@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/routing/route_names.dart';
 
@@ -29,7 +30,7 @@ class EmptyHouseholdView extends StatelessWidget {
             ),
             const SizedBox(height: 28),
             Text(
-              'No households yet',
+              AppLocalizations.of(context)!.homeNoHouseholdsTitle,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w800,
                     letterSpacing: -0.5,
@@ -37,7 +38,7 @@ class EmptyHouseholdView extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Create a household or join one\nto start tracking shared expenses with roommates.',
+              AppLocalizations.of(context)!.homeNoHouseholdsDesc,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     height: 1.5,
@@ -49,7 +50,7 @@ class EmptyHouseholdView extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () => context.push(RouteNames.createHousehold),
                 icon: const Icon(Icons.add_home_outlined),
-                label: const Text('Create Household'),
+                label: Text(AppLocalizations.of(context)!.homeCreateHouseholdBtn),
               ),
             ),
             const SizedBox(height: 14),
@@ -58,7 +59,7 @@ class EmptyHouseholdView extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () => context.push(RouteNames.joinHousehold),
                 icon: const Icon(Icons.group_add_outlined),
-                label: const Text('Join Household'),
+                label: Text(AppLocalizations.of(context)!.homeJoinHouseholdBtn),
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../providers/household_provider.dart';
 
@@ -17,12 +18,12 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
   final _nameController = TextEditingController();
   String _selectedCategory = 'home';
 
-  final List<Map<String, dynamic>> _categories = [
-    {'id': 'home', 'label': 'Flat / Home', 'emoji': '🏠', 'icon': Icons.home_outlined},
-    {'id': 'trip', 'label': 'Trip / Vacation', 'emoji': '🏖️', 'icon': Icons.flight_takeoff_rounded},
-    {'id': 'friends', 'label': 'Friends / Hangout', 'emoji': '🍻', 'icon': Icons.celebration_rounded},
-    {'id': 'office', 'label': 'Office / Project', 'emoji': '💼', 'icon': Icons.work_outline_rounded},
-    {'id': 'other', 'label': 'Other', 'emoji': '🎯', 'icon': Icons.category_outlined},
+  List<Map<String, dynamic>> _getCategories(BuildContext context) => [
+    {'id': 'home', 'label': AppLocalizations.of(context)!.hhCatHome, 'emoji': '🏠', 'icon': Icons.home_outlined},
+    {'id': 'trip', 'label': AppLocalizations.of(context)!.hhCatTrip, 'emoji': '🏖️', 'icon': Icons.flight_takeoff_rounded},
+    {'id': 'friends', 'label': AppLocalizations.of(context)!.hhCatFriends, 'emoji': '🍻', 'icon': Icons.celebration_rounded},
+    {'id': 'office', 'label': AppLocalizations.of(context)!.hhCatOffice, 'emoji': '💼', 'icon': Icons.work_outline_rounded},
+    {'id': 'other', 'label': AppLocalizations.of(context)!.hhCatOther, 'emoji': '🎯', 'icon': Icons.category_outlined},
   ];
 
   @override
@@ -54,19 +55,19 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
     }
   }
 
-  String get _hintText {
+  String _getHintText(BuildContext context) {
     switch (_selectedCategory) {
       case 'trip':
-        return 'e.g. Goa Trip 2026, Ladakh Roadtrip';
+        return AppLocalizations.of(context)!.hhHintTrip;
       case 'friends':
-        return 'e.g. Weekend Dinners, College Gang';
+        return AppLocalizations.of(context)!.hhHintFriends;
       case 'office':
-        return 'e.g. Lunch Crew, Hackathon Team';
+        return AppLocalizations.of(context)!.hhHintOffice;
       case 'other':
-        return 'e.g. Book Club, Gym Buddies';
+        return AppLocalizations.of(context)!.hhHintOther;
       case 'home':
       default:
-        return 'e.g. Flat 302, Green Villa, Room 104';
+        return AppLocalizations.of(context)!.hhHintHome;
     }
   }
 
@@ -76,7 +77,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Group / Household'),
+        title: Text(AppLocalizations.of(context)!.hhCreateTitle),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -99,7 +100,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
                       const SizedBox(width: 14),
                       Expanded(
                         child: Text(
-                          'Create a shared space for your roommates, travel buddies, or friend groups to split bills effortlessly.',
+                          AppLocalizations.of(context)!.hhCreateDesc,
                           style: TextStyle(
                             color: AppColors.primaryDark,
                             fontSize: 13,
@@ -133,7 +134,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
 
                 // Category Selector
                 Text(
-                  'Group Type',
+                  AppLocalizations.of(context)!.hhGroupType,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -142,7 +143,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: _categories.map((cat) {
+                  children: _getCategories(context).map((cat) {
                     final isSelected = _selectedCategory == cat['id'];
                     return ChoiceChip(
                       avatar: Text(cat['emoji'] as String),
@@ -172,16 +173,16 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _handleCreate(),
                   decoration: InputDecoration(
-                    labelText: 'Group / Household Name',
-                    hintText: _hintText,
+                    labelText: AppLocalizations.of(context)!.hhNameLabel,
+                    hintText: _getHintText(context),
                     prefixIcon: const Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (val) {
                     if (val == null || val.trim().isEmpty) {
-                      return 'Please enter a name';
+                      return AppLocalizations.of(context)!.hhNameEmpty;
                     }
                     if (val.trim().length < 2) {
-                      return 'Name must be at least 2 characters';
+                      return AppLocalizations.of(context)!.hhNameShort;
                     }
                     return null;
                   },
@@ -200,7 +201,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Text('Create Group'),
+                      : Text(AppLocalizations.of(context)!.homeCreateGroup),
                 ),
               ],
             ),

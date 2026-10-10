@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../providers/household_provider.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 
 class JoinHouseholdScreen extends ConsumerStatefulWidget {
   const JoinHouseholdScreen({super.key});
@@ -34,7 +35,7 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
     if (household != null && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Joined ${household.name} successfully! 🎉'),
+          content: Text(AppLocalizations.of(context)!.hhJoinSuccess(household.name)),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -48,7 +49,7 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Join Household'),
+        title: Text(AppLocalizations.of(context)!.hhJoinTitle),
       ),
       body: SafeArea(
         child: Padding(
@@ -71,7 +72,7 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
                       const SizedBox(width: 14),
                       Expanded(
                         child: Text(
-                          'Ask your roommate for the 6-character room code to join and split expenses.',
+                          AppLocalizations.of(context)!.hhJoinDesc,
                           style: TextStyle(
                             color: AppColors.textPrimaryLight,
                             fontSize: 13,
@@ -118,17 +119,17 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
                     LengthLimitingTextInputFormatter(6),
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
                   ],
-                  decoration: const InputDecoration(
-                    labelText: '6-Character Invite Code',
-                    hintText: 'e.g. X7K92P',
-                    contentPadding: EdgeInsets.symmetric(vertical: 20),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.hhCodeLabel,
+                    hintText: AppLocalizations.of(context)!.hhCodeHint,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 20),
                   ),
                   validator: (val) {
                     if (val == null || val.trim().isEmpty) {
-                      return 'Please enter the invite code';
+                      return AppLocalizations.of(context)!.hhCodeEmpty;
                     }
                     if (val.trim().length != 6) {
-                      return 'Invite code must be exactly 6 characters';
+                      return AppLocalizations.of(context)!.hhCodeLength;
                     }
                     return null;
                   },
@@ -147,7 +148,7 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
                                 AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : const Text('Join Household'),
+                      : Text(AppLocalizations.of(context)!.hhJoinTitle),
                 ),
               ],
             ),
@@ -157,3 +158,4 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
     );
   }
 }
+

@@ -6,6 +6,7 @@ import '../../../core/utils/date_formatter.dart';
 import '../../../models/household_member_model.dart';
 import '../../household/providers/household_provider.dart';
 import '../../settlements/providers/settlement_provider.dart';
+import '../../../core/widgets/shimmer/skeletons/members_settlements_shimmers.dart';
 
 class SettlementHistoryScreen extends ConsumerWidget {
   final String householdId;
@@ -142,7 +143,7 @@ class SettlementHistoryScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const SettlementHistoryShimmer(),
         error: (err, _) => Center(child: Text('Error: $err')),
       ),
     );

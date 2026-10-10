@@ -14,7 +14,6 @@ import '../../expenses/presentation/expense_history_screen.dart';
 import '../../expenses/providers/expense_provider.dart';
 import '../../settlements/providers/settlement_provider.dart';
 import '../providers/household_provider.dart';
-import 'household_members_screen.dart';
 import 'widgets/group_activity_section.dart';
 import 'widgets/group_expense_list_section.dart';
 import 'widgets/group_header_summary_card.dart';
@@ -23,6 +22,10 @@ import 'widgets/member_balance_list_section.dart';
 import 'widgets/member_breakdown_modal.dart';
 import 'widgets/spending_insights_section.dart';
 import 'widgets/who_owes_whom_section.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
+import '../../../core/widgets/shimmer/skeletons/household_dashboard_shimmer.dart';
+import '../../../core/widgets/shimmer/shimmer_placeholders.dart';
+import '../../../core/widgets/shimmer/app_shimmer.dart';
 
 class HouseholdDashboardScreen extends ConsumerStatefulWidget {
   final String householdId;
@@ -50,8 +53,8 @@ class _HouseholdDashboardScreenState
       data: (household) {
         if (household == null) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Household')),
-            body: const Center(child: Text('Household not found.')),
+            appBar: AppBar(title: Text(AppLocalizations.of(context)!.hhDashboardHouseholdTitle)),
+            body: Center(child: Text(AppLocalizations.of(context)!.hhDashboardHouseholdNotFound)),
           );
         }
 
@@ -81,37 +84,35 @@ class _HouseholdDashboardScreenState
                 _currentIndex = idx;
               });
             },
-            destinations: const [
+            destinations: [
               NavigationDestination(
-                icon: Icon(Icons.dashboard_outlined),
-                selectedIcon: Icon(Icons.dashboard),
-                label: 'Dashboard',
+                icon: const Icon(Icons.dashboard_outlined),
+                selectedIcon: const Icon(Icons.dashboard),
+                label: AppLocalizations.of(context)!.hhDashboardTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.receipt_long_outlined),
-                selectedIcon: Icon(Icons.receipt_long),
-                label: 'Expenses',
+                icon: const Icon(Icons.receipt_long_outlined),
+                selectedIcon: const Icon(Icons.receipt_long),
+                label: AppLocalizations.of(context)!.hhDashboardExpensesTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.account_balance_wallet_outlined),
-                selectedIcon: Icon(Icons.account_balance_wallet),
-                label: 'Balances',
+                icon: const Icon(Icons.account_balance_wallet_outlined),
+                selectedIcon: const Icon(Icons.account_balance_wallet),
+                label: AppLocalizations.of(context)!.hhDashboardBalancesTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.bar_chart_outlined),
-                selectedIcon: Icon(Icons.bar_chart),
-                label: 'Analytics',
+                icon: const Icon(Icons.bar_chart_outlined),
+                selectedIcon: const Icon(Icons.bar_chart),
+                label: AppLocalizations.of(context)!.hhDashboardAnalyticsTab,
               ),
             ],
           ),
         );
       },
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () => const HouseholdDashboardShimmer(),
       error: (err, _) => Scaffold(
-        appBar: AppBar(title: const Text('Error')),
-        body: Center(child: Text('Error: $err')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.hhError(''))),
+        body: Center(child: Text(AppLocalizations.of(context)!.hhError(err.toString()))),
       ),
     );
   }
@@ -147,7 +148,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          tooltip: 'All Groups',
+          tooltip: AppLocalizations.of(context)!.hhDashboardAllGroups,
           onPressed: () => context.go(RouteNames.home),
         ),
         title: InkWell(
@@ -176,7 +177,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      '${household.memberCount} members',
+                      AppLocalizations.of(context)!.homeMemberCount(household.memberCount),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
                     ),
                     const SizedBox(width: 8),
@@ -197,20 +198,14 @@ class _DashboardOverviewTab extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.group_outlined),
-            tooltip: 'View Members',
+            tooltip: AppLocalizations.of(context)!.hhDashboardViewMembers,
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      HouseholdMembersScreen(householdId: householdId),
-                ),
-              );
+              context.push(RouteNames.members.replaceAll(':id', householdId));
             },
           ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
-            tooltip: 'Group Options',
+            tooltip: AppLocalizations.of(context)!.hhDashboardGroupOptions,
             onSelected: (val) async {
               if (val == 'switch') {
                 GroupSwitcherModal.show(context, householdId);
@@ -230,45 +225,45 @@ class _DashboardOverviewTab extends ConsumerWidget {
               }
             },
             itemBuilder: (ctx) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'switch',
                 child: Row(
                   children: [
-                    Icon(Icons.swap_horiz_rounded, size: 20),
-                    SizedBox(width: 12),
-                    Text('Switch Group'),
+                    const Icon(Icons.swap_horiz_rounded, size: 20),
+                    const SizedBox(width: 12),
+                    Text(AppLocalizations.of(context)!.hhDashboardSwitchGroup),
                   ],
                 ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'invite',
                 child: Row(
                   children: [
-                    Icon(Icons.qr_code_rounded, size: 20),
-                    SizedBox(width: 12),
-                    Text('Invite Friends'),
+                    const Icon(Icons.qr_code_rounded, size: 20),
+                    const SizedBox(width: 12),
+                    Text(AppLocalizations.of(context)!.hhDashboardInviteFriends),
                   ],
                 ),
               ),
               const PopupMenuDivider(),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: 'leave',
                 child: Row(
                   children: [
-                    Icon(Icons.exit_to_app_rounded, size: 20, color: AppColors.negative),
-                    SizedBox(width: 12),
-                    Text('Leave Group', style: TextStyle(color: AppColors.negative)),
+                    const Icon(Icons.exit_to_app_rounded, size: 20, color: AppColors.negative),
+                    const SizedBox(width: 12),
+                    Text(AppLocalizations.of(context)!.hhDashboardLeaveGroup, style: const TextStyle(color: AppColors.negative)),
                   ],
                 ),
               ),
               if (isOwner)
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: 'delete',
                   child: Row(
                     children: [
-                      Icon(Icons.delete_outline_rounded, size: 20, color: AppColors.negative),
-                      SizedBox(width: 12),
-                      Text('Delete Group', style: TextStyle(color: AppColors.negative)),
+                      const Icon(Icons.delete_outline_rounded, size: 20, color: AppColors.negative),
+                      const SizedBox(width: 12),
+                      Text(AppLocalizations.of(context)!.hhDashboardDeleteGroup, style: const TextStyle(color: AppColors.negative)),
                     ],
                   ),
                 ),
@@ -314,11 +309,8 @@ class _DashboardOverviewTab extends ConsumerWidget {
                   );
                 },
               ),
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: CircularProgressIndicator(),
-                ),
+              loading: () => const AppShimmer(
+                child: ShimmerCard(height: 200, borderRadius: 24),
               ),
               error: (err, _) => const SizedBox.shrink(),
             ),
@@ -345,11 +337,8 @@ class _DashboardOverviewTab extends ConsumerWidget {
                   );
                 },
               ),
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: CircularProgressIndicator(),
-                ),
+              loading: () => const AppShimmer(
+                child: ShimmerCard(height: 120, borderRadius: 20),
               ),
               error: (err, _) => const SizedBox.shrink(),
             ),
@@ -430,10 +419,13 @@ class _DashboardOverviewTab extends ConsumerWidget {
                   );
                 },
               ),
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: CircularProgressIndicator(),
+              loading: () => const AppShimmer(
+                child: Column(
+                  children: [
+                    ExpenseTileSkeleton(),
+                    SizedBox(height: 10),
+                    ExpenseTileSkeleton(),
+                  ],
                 ),
               ),
               error: (err, _) => const SizedBox.shrink(),
@@ -464,7 +456,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
           );
         },
         icon: const Icon(Icons.add_rounded),
-        label: const Text('Add Expense'),
+        label: Text(AppLocalizations.of(context)!.hhAddExpenseBtn),
       ),
     );
   }
@@ -478,14 +470,14 @@ class _DashboardOverviewTab extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Leave Group?'),
+        title: Text(AppLocalizations.of(context)!.hhLeaveGroupTitle),
         content: Text(
-          'Are you sure you want to leave "$name"? You will no longer have access to this group\'s expenses and balances.',
+          AppLocalizations.of(context)!.hhLeaveGroupDesc(name),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.hhCancel),
           ),
           TextButton(
             onPressed: () async {
@@ -497,7 +489,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
                 context.go(RouteNames.home);
               }
             },
-            child: const Text('Leave', style: TextStyle(color: AppColors.negative)),
+            child: Text(AppLocalizations.of(context)!.hhLeaveBtn, style: const TextStyle(color: AppColors.negative)),
           ),
         ],
       ),
@@ -513,14 +505,14 @@ class _DashboardOverviewTab extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Group?'),
+        title: Text(AppLocalizations.of(context)!.hhDeleteGroupTitle),
         content: Text(
-          'Are you sure you want to delete "$name"? This group will be archived and hidden for all members.',
+          AppLocalizations.of(context)!.hhDeleteGroupDesc(name),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.hhCancel),
           ),
           TextButton(
             onPressed: () async {
@@ -532,10 +524,11 @@ class _DashboardOverviewTab extends ConsumerWidget {
                 context.go(RouteNames.home);
               }
             },
-            child: const Text('Delete', style: TextStyle(color: AppColors.negative)),
+            child: Text(AppLocalizations.of(context)!.hhDeleteBtn, style: const TextStyle(color: AppColors.negative)),
           ),
         ],
       ),
     );
   }
 }
+

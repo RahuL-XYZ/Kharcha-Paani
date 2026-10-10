@@ -5,6 +5,7 @@ import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../models/expense_model.dart';
 import '../../../../models/household_member_model.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 
 class GroupExpenseListSection extends StatelessWidget {
   final List<ExpenseModel> expenses;
@@ -54,7 +55,7 @@ class GroupExpenseListSection extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Group Expenses',
+                  AppLocalizations.of(context)!.hhGroupExpenses,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                         fontSize: 17,
@@ -70,12 +71,12 @@ class GroupExpenseListSection extends StatelessWidget {
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                child: const Row(
+                child: Row(
                   children: [
                     Text(
-                      'View All',
+                      AppLocalizations.of(context)!.hhViewAll,
                       style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                          const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
                     ),
                     Icon(Icons.chevron_right_rounded, size: 16),
                   ],
@@ -106,16 +107,16 @@ class GroupExpenseListSection extends StatelessWidget {
                   color: AppColors.neutral,
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'No expenses recorded yet',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.expNoExpensesYet,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Start splitting group expenses with your roommates.',
+                  AppLocalizations.of(context)!.hhStartSplitting,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
@@ -123,7 +124,7 @@ class GroupExpenseListSection extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: onAddExpense,
                   icon: const Icon(Icons.add_rounded, size: 16),
-                  label: const Text('Add First Expense'),
+                  label: Text(AppLocalizations.of(context)!.hhAddFirstExpense),
                   style: ElevatedButton.styleFrom(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -143,8 +144,8 @@ class GroupExpenseListSection extends StatelessWidget {
               final expense = expenses[index];
               final cat = ExpenseCategories.getById(expense.category);
               final payerName = expense.paidBy == currentUserId
-                  ? 'You'
-                  : (memberNameMap[expense.paidBy] ?? 'Someone');
+                  ? AppLocalizations.of(context)!.expYouSuffix
+                  : (memberNameMap[expense.paidBy] ?? AppLocalizations.of(context)!.expRoommate);
               final splitCount = expense.participants.length;
               final isCurrentUserParticipant =
                   expense.participants.contains(currentUserId);

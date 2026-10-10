@@ -5,6 +5,8 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../providers/household_provider.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
+import '../../../core/widgets/shimmer/skeletons/members_settlements_shimmers.dart';
 
 class HouseholdMembersScreen extends ConsumerWidget {
   final String householdId;
@@ -23,19 +25,19 @@ class HouseholdMembersScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Roommates & Members'),
+        title: Text(AppLocalizations.of(context)!.hhMembersTitle),
         actions: [
           householdAsync.when(
             data: (h) {
               if (h == null) return const SizedBox.shrink();
               return IconButton(
                 icon: const Icon(Icons.share_outlined),
-                tooltip: 'Copy Invite Code',
+                tooltip: AppLocalizations.of(context)!.hhCopyInviteCodeTooltip,
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: h.inviteCode));
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Invite code #${h.inviteCode} copied!'),
+                      content: Text(AppLocalizations.of(context)!.hhInviteCodeCopied(h.inviteCode)),
                       behavior: SnackBarBehavior.floating,
                     ),
                   );
@@ -78,8 +80,8 @@ class HouseholdMembersScreen extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Household Invite Code',
+                              Text(
+                                AppLocalizations.of(context)!.hhHouseholdInviteCode,
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -104,8 +106,8 @@ class HouseholdMembersScreen extends ConsumerWidget {
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: h.inviteCode));
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Invite code copied!'),
+                              SnackBar(
+                                content: Text(AppLocalizations.of(context)!.hhInviteCodeCopiedShort),
                                 behavior: SnackBarBehavior.floating,
                               ),
                             );
@@ -121,7 +123,7 @@ class HouseholdMembersScreen extends ConsumerWidget {
               ),
 
               Text(
-                'Members (${members.length})',
+                AppLocalizations.of(context)!.hhMembersCountLabel(members.length),
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -179,8 +181,8 @@ class HouseholdMembersScreen extends ConsumerWidget {
                               color: AppColors.primaryLight,
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Text(
-                              'You',
+                            child: Text(
+                              AppLocalizations.of(context)!.hhYouBadge,
                               style: TextStyle(
                                 color: AppColors.primaryDark,
                                 fontSize: 11,
@@ -196,7 +198,7 @@ class HouseholdMembersScreen extends ConsumerWidget {
                       children: [
                         const SizedBox(height: 4),
                         Text(
-                          'Joined ${DateFormatter.formatDate(member.joinedAt)}',
+                          AppLocalizations.of(context)!.hhJoinedDate(DateFormatter.formatDate(member.joinedAt)),
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
@@ -213,7 +215,7 @@ class HouseholdMembersScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        member.isOwner ? 'Owner' : 'Member',
+                        member.isOwner ? AppLocalizations.of(context)!.hhOwnerRole : AppLocalizations.of(context)!.hhMemberRole,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -229,9 +231,10 @@ class HouseholdMembersScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error: $err')),
+        loading: () => const HouseholdMembersShimmer(),
+        error: (err, _) => Center(child: Text(AppLocalizations.of(context)!.hhError(err.toString()))),
       ),
     );
   }
 }
+

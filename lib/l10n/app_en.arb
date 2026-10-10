@@ -1,0 +1,409 @@
+{
+  "appName": "Kharcha Paani",
+  "helloWorld": "Hello World!",
+  "authWelcomeBack": "Welcome back",
+  "authLoginSubtitle": "Log in to manage your household expenses",
+  "authEmailLabel": "Email Address",
+  "authEmailHint": "e.g. rahul@example.com",
+  "authEmailEmptyError": "Please enter your email",
+  "authEmailInvalidError": "Please enter a valid email address",
+  "authPasswordLabel": "Password",
+  "authPasswordHint": "••••••••",
+  "authPasswordEmptyError": "Please enter your password",
+  "authPasswordLengthError": "Password must be at least 6 characters",
+  "authForgotPasswordText": "Forgot password?",
+  "authLoginButton": "Log In",
+  "authNoAccountText": "Don't have an account?",
+  "authSignUpButton": "Sign Up",
+  "profileTitle": "Profile & Settings",
+  "profileEditName": "Edit Name",
+  "profileFullName": "Full Name",
+  "profileNameHint": "Enter your name",
+  "profileNameEmptyError": "Name cannot be empty",
+  "profileCancel": "Cancel",
+  "profileSave": "Save",
+  "profileUpdatedMsg": "Profile updated successfully!",
+  "profileLogoutTitle": "Log Out",
+  "profileLogoutConfirm": "Are you sure you want to log out of Kharcha Paani?",
+  "profileAppearance": "Appearance",
+  "profileThemeMode": "Theme Mode",
+  "profileThemeSystem": "System",
+  "profileThemeLight": "Light",
+  "profileThemeDark": "Dark",
+  "profileLanguage": "Language",
+  "profileLanguageEn": "English",
+  "profileLanguageHi": "हिन्दी (Hindi)",
+  "profileAbout": "About",
+  "profileAboutApp": "About Kharcha Paani",
+  "profileAboutSub": "Version 1.0.0 • Roommate Expense Sharing",
+  "profileSecurity": "Security & Calculations",
+  "profileSecuritySub": "Integer paise precision • Zero float errors",
+  "authRegisterTitle": "Create Account",
+  "authRegisterSubtitle": "Get started with {appName}",
+  "@authRegisterSubtitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "authRegisterDesc": "Share flat expenses fairly and transparently with roommates.",
+  "authNameLabel": "Full Name",
+  "authNameHint": "e.g. Rahul Sharma",
+  "authNameEmptyError": "Please enter your name",
+  "authNameLengthError": "Name must be at least 2 characters",
+  "authPasswordHint2": "At least 6 characters",
+  "authConfirmPasswordLabel": "Confirm Password",
+  "authConfirmPasswordHint": "Repeat password",
+  "authConfirmPasswordEmptyError": "Please confirm your password",
+  "authConfirmPasswordMatchError": "Passwords do not match",
+  "authHasAccountText": "Already have an account?",
+  "authResetTitle": "Reset Password",
+  "authCheckEmailTitle": "Check your email",
+  "authCheckEmailDesc": "We sent password reset instructions to\n{email}",
+  "@authCheckEmailDesc": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authBackToLogin": "Back to Log In",
+  "authForgotTitle": "Forgot your password?",
+  "authForgotDesc": "Enter your registered email and we will send you instructions to reset your password.",
+  "authSendResetLink": "Send Reset Link",
+  "homeGreetingMorning": "Good morning",
+  "homeGreetingAfternoon": "Good afternoon",
+  "homeGreetingEvening": "Good evening",
+  "homeFriend": "Friend",
+  "homeTrackSplitExpenses": "Track and split expenses across all your groups",
+  "homeTotalNetStanding": "TOTAL NET STANDING",
+  "homeGroupCount": "{count, plural, =1{1 group} other{{count} groups}}",
+  "@homeGroupCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeYouAreOwed": "You are owed {amount}",
+  "@homeYouAreOwed": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "homeYouOwe": "You owe {amount}",
+  "@homeYouOwe": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSettledUp": "You are all settled up!",
+  "homeTotalToReceive": "Total to receive",
+  "homeTotalYouOwe": "Total you owe",
+  "homeCreateGroup": "Create Group",
+  "homeJoinRoom": "Join Room",
+  "homeMyGroups": "My Groups & Households",
+  "homeTotalCount": "{count} total",
+  "@homeTotalCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeFailedLoad": "Failed to load households",
+  "homeTryAgain": "Try Again",
+  "homeNoHouseholdsTitle": "No households yet",
+  "homeNoHouseholdsDesc": "Create a household or join one\nto start tracking shared expenses with roommates.",
+  "homeCreateHouseholdBtn": "Create Household",
+  "homeJoinHouseholdBtn": "Join Household",
+  "homeMemberCount": "{count, plural, =1{1 member} other{{count} members}}",
+  "@homeMemberCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeTotalExpenses": "Total expenses",
+  "homeYouReceive": "You receive {amount}",
+  "@homeYouReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "homeSettledUpBadge": "Settled up",
+  "homeTapDetails": "Tap to view details",
+  "hhCreateTitle": "Create Group / Household",
+  "hhCreateDesc": "Create a shared space for your roommates, travel buddies, or friend groups to split bills effortlessly.",
+  "hhCatHome": "Flat / Home",
+  "hhCatTrip": "Trip / Vacation",
+  "hhCatFriends": "Friends / Hangout",
+  "hhCatOffice": "Office / Project",
+  "hhCatOther": "Other",
+  "hhHintTrip": "e.g. Goa Trip 2026, Ladakh Roadtrip",
+  "hhHintFriends": "e.g. Weekend Dinners, College Gang",
+  "hhHintOffice": "e.g. Lunch Crew, Hackathon Team",
+  "hhHintOther": "e.g. Book Club, Gym Buddies",
+  "hhHintHome": "e.g. Flat 302, Green Villa, Room 104",
+  "hhGroupType": "Group Type",
+  "hhNameLabel": "Group / Household Name",
+  "hhNameEmpty": "Please enter a name",
+  "hhNameShort": "Name must be at least 2 characters",
+  "hhJoinSuccess": "Joined {name} successfully! 🎉",
+  "@hhJoinSuccess": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "hhJoinTitle": "Join Household",
+  "hhJoinDesc": "Ask your roommate for the 6-character room code to join and split expenses.",
+  "hhCodeLabel": "6-Character Invite Code",
+  "hhCodeHint": "e.g. X7K92P",
+  "hhCodeEmpty": "Please enter the invite code",
+  "hhCodeLength": "Invite code must be exactly 6 characters",
+  "hhReadyTitle": "Your household is ready 🎉",
+  "hhInviteCodeLabel": "INVITE CODE",
+  "hhShareCodeDesc": "Share this 6-character code with your roommates so they can join your room.",
+  "hhCodeCopied": "Invite code copied to clipboard!",
+  "hhCopyBtn": "Copy",
+  "hhShareBtn": "Share",
+  "hhShareText": "Hey! I created a room for us on Kharcha Paani: \"{name}\".\n\nJoin using my invite code: *{code}*\n\nDownload the app to split our expenses easily!",
+  "@hhShareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "hhGoToHouseholdBtn": "Go to Household",
+  "hhMembersTitle": "Roommates & Members",
+  "hhCopyInviteCodeTooltip": "Copy Invite Code",
+  "hhInviteCodeCopied": "Invite code #{code} copied!",
+  "@hhInviteCodeCopied": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "hhHouseholdInviteCode": "Household Invite Code",
+  "hhInviteCodeCopiedShort": "Invite code copied!",
+  "hhMembersCountLabel": "Members ({count})",
+  "@hhMembersCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hhYouBadge": "You",
+  "hhJoinedDate": "Joined {date}",
+  "@hhJoinedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "hhOwnerRole": "Owner",
+  "hhMemberRole": "Member",
+  "hhError": "Error: {err}",
+  "@hhError": {
+    "placeholders": {
+      "err": {
+        "type": "String"
+      }
+    }
+  },
+  "hhDashboardHouseholdTitle": "Household",
+  "hhDashboardHouseholdNotFound": "Household not found.",
+  "hhDashboardTab": "Dashboard",
+  "hhDashboardExpensesTab": "Expenses",
+  "hhDashboardBalancesTab": "Balances",
+  "hhDashboardAnalyticsTab": "Analytics",
+  "hhDashboardAllGroups": "All Groups",
+  "hhDashboardViewMembers": "View Members",
+  "hhDashboardGroupOptions": "Group Options",
+  "hhDashboardSwitchGroup": "Switch Group",
+  "hhDashboardInviteFriends": "Invite Friends",
+  "hhDashboardLeaveGroup": "Leave Group",
+  "hhDashboardDeleteGroup": "Delete Group",
+  "hhLeaveGroupTitle": "Leave Group?",
+  "hhLeaveGroupDesc": "Are you sure you want to leave \"{name}\"? You will no longer have access to this group's expenses and balances.",
+  "@hhLeaveGroupDesc": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "hhCancel": "Cancel",
+  "hhLeaveBtn": "Leave",
+  "hhDeleteGroupTitle": "Delete Group?",
+  "hhDeleteGroupDesc": "Are you sure you want to delete \"{name}\"? This group will be archived and hidden for all members.",
+  "@hhDeleteGroupDesc": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "hhDeleteBtn": "Delete",
+  "hhAddExpenseBtn": "Add Expense",
+  "expAddTitle": "Add Expense",
+  "expEditTitle": "Edit Expense",
+  "expNoParticipantsError": "Please select at least one roommate to split with.",
+  "expAllocMismatchExact": "Allocated amount must exactly match total amount.",
+  "expAllocMismatchPercent": "Allocated percentage must equal 100%.",
+  "expAllocMismatchShares": "At least one share must be allocated.",
+  "expUpdatedSuccess": "Expense updated successfully!",
+  "expAddedSuccess": "Expense added successfully! 🎉",
+  "expAmountEmpty": "Enter amount",
+  "expAmountInvalid": "Amount must be > 0",
+  "expTitleLabel": "Expense Title",
+  "expTitleHint": "e.g. Grocery, Electricity, Wi-Fi",
+  "expTitleEmpty": "Please enter a title",
+  "expCategoryLabel": "Category",
+  "expPaidByLabel": "Paid by",
+  "expDateLabel": "Date",
+  "expNotesLabel": "Notes (Optional)",
+  "expNotesHint": "e.g. Bought from Supermarket, Bill #48",
+  "expSaveBtn": "Save Changes",
+  "expYouSuffix": "(You)",
+  "expSplitEqual": "Equal Split",
+  "expSplitExact": "Exact Amount",
+  "expSplitShares": "Shares",
+  "expSplitBetween": "Split between ({selected}/{total})",
+  "@expSplitBetween": {
+    "placeholders": {
+      "selected": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "expSelectOnlyMe": "Select only me",
+  "expSelectAll": "Select all",
+  "expAllocFully": "Fully allocated! (Total: ₹{amount})",
+  "@expAllocFully": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expAllocRemaining": "Remaining: ₹{amount}",
+  "@expAllocRemaining": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expAllocOver": "Over-allocated by ₹{amount}",
+  "@expAllocOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expAllocShares": "Total Shares: {amount}",
+  "@expAllocShares": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    }
+  },
+  "expDeleteTitle": "Delete Expense?",
+  "expDeleteDesc": "Are you sure you want to delete \"{title}\" of {amount}? This will recalculate all balances.",
+  "@expDeleteDesc": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expDeletedSuccess": "Expense deleted successfully",
+  "expDetailTitle": "Expense Details",
+  "expNotFound": "Expense not found",
+  "expRoommate": "Roommate",
+  "expEditTooltip": "Edit",
+  "expDeleteTooltip": "Delete",
+  "expYouWithName": "You ({name})",
+  "@expYouWithName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "expNotesHeader": "Notes",
+  "expSplitBreakdown": "Split Breakdown",
+  "expSplitSuffix": "SPLIT",
+  "expSharesSuffix": "shares",
+  "expExactSuffix": "Exact",
+  "expHistoryTitle": "Expense History",
+  "expSearchHint": "Search by title or notes...",
+  "expCatFilter": "Cat: {category}",
+  "@expCatFilter": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "expMemberFilter": "Member: {name}",
+  "@expMemberFilter": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "expSelected": "Selected",
+  "expDateFiltered": "Date filtered",
+  "expNoMatch": "No matching expenses found",
+  "expAdjustFilters": "Try adjusting your filters",
+  "expNoExpensesYet": "No expenses recorded yet",
+  "expTapToAdd": "Tap + to add your first shared expense",
+  "expTotalAmount": "Total {amount}",
+  "@expTotalAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "hhYouAreOwed": "You are owed",
+  "hhYouOwe": "You owe",
+  "hhYouAreSettledUp": "You are settled up",
+  "hhTotalGroupSpend": "Total group spend",
+  "hhAllSettledUp": "All settled up! 🎉",
+  "hhYouPaid": "You paid",
+  "hhYourShare": "Your share",
+  "hhSettleUp": "Settle Up",
+  "hhGroupExpenses": "Group Expenses",
+  "hhViewAll": "View All",
+  "hhStartSplitting": "Start splitting group expenses with your roommates.",
+  "hhAddFirstExpense": "Add First Expense"
+}

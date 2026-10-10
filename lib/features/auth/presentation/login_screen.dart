@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/widgets/app_logo.dart';
@@ -63,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Welcome back',
+                    AppLocalizations.of(context)!.authWelcomeBack,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.w800,
@@ -72,7 +73,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Log in to manage your household expenses',
+                    AppLocalizations.of(context)!.authLoginSubtitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
@@ -115,18 +116,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'Email Address',
-                      hintText: 'e.g. rahul@example.com',
-                      prefixIcon: Icon(Icons.email_outlined),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.authEmailLabel,
+                      hintText: AppLocalizations.of(context)!.authEmailHint,
+                      prefixIcon: const Icon(Icons.email_outlined),
                     ),
                     validator: (val) {
                       if (val == null || val.trim().isEmpty) {
-                        return 'Please enter your email';
+                        return AppLocalizations.of(context)!.authEmailEmptyError;
                       }
                       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                           .hasMatch(val.trim())) {
-                        return 'Please enter a valid email address';
+                        return AppLocalizations.of(context)!.authEmailInvalidError;
                       }
                       return null;
                     },
@@ -140,8 +141,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) => _handleLogin(),
                     decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: '••••••••',
+                      labelText: AppLocalizations.of(context)!.authPasswordLabel,
+                      hintText: AppLocalizations.of(context)!.authPasswordHint,
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -158,10 +159,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return 'Please enter your password';
+                        return AppLocalizations.of(context)!.authPasswordEmptyError;
                       }
                       if (val.length < 6) {
-                        return 'Password must be at least 6 characters';
+                        return AppLocalizations.of(context)!.authPasswordLengthError;
                       }
                       return null;
                     },
@@ -173,7 +174,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () => context.push(RouteNames.forgotPassword),
-                      child: const Text('Forgot password?'),
+                      child: Text(AppLocalizations.of(context)!.authForgotPasswordText),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -191,7 +192,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
                           )
-                        : const Text('Log In'),
+                        : Text(AppLocalizations.of(context)!.authLoginButton),
                   ),
                   const SizedBox(height: 24),
 
@@ -200,7 +201,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account?",
+                        AppLocalizations.of(context)!.authNoAccountText,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       TextButton(
@@ -208,7 +209,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ref.read(authControllerProvider.notifier).clearError();
                           context.push(RouteNames.register);
                         },
-                        child: const Text('Sign Up'),
+                        child: Text(AppLocalizations.of(context)!.authSignUpButton),
                       ),
                     ],
                   ),

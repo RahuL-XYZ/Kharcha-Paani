@@ -40,8 +40,8 @@ class AppColors {
   static const Color textPrimaryLight = Color(0xFF0F172A);
   static const Color textSecondaryLight = Color(0xFF475569);
   static const Color textTertiaryLight = Color(0xFF94A3B8);
-  static const Color borderLight = Color(0xFFE2E8F0);
-  static const Color dividerLight = Color(0xFFF1F5F9);
+  static const Color borderLight = Color(0xFFD2E3FC); // Very light Mail Blue
+  static const Color dividerLight = Color(0xFFD2E3FC);
 
   // Dark Theme Neutrals
   static const Color backgroundDark = Color(0xFF0B0F19);

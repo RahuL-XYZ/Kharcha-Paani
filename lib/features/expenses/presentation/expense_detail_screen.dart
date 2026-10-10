@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/expense_categories.dart';
 import '../../../core/utils/currency_formatter.dart';
@@ -12,6 +13,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../../household/providers/household_provider.dart';
 import '../providers/expense_provider.dart';
 import 'add_edit_expense_screen.dart';
+import '../../../core/widgets/shimmer/skeletons/expense_shimmers.dart';
 
 class ExpenseDetailScreen extends ConsumerWidget {
   final String householdId;
@@ -31,21 +33,21 @@ class ExpenseDetailScreen extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Expense?'),
+        title: Text(AppLocalizations.of(context)!.expDeleteTitle),
         content: Text(
-          'Are you sure you want to delete "${expense.title}" of ${CurrencyFormatter.formatRupees(expense.amount)}? This will recalculate all balances.',
+          AppLocalizations.of(context)!.expDeleteDesc(expense.title, CurrencyFormatter.formatRupees(expense.amount)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context)!.hhCancel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.negative,
             ),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context)!.hhDeleteBtn),
           ),
         ],
       ),
@@ -59,8 +61,8 @@ class ExpenseDetailScreen extends ConsumerWidget {
       if (success && context.mounted) {
         ref.invalidate(householdExpensesStreamProvider(householdId));
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Expense deleted successfully'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.expDeletedSuccess),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -83,8 +85,8 @@ class ExpenseDetailScreen extends ConsumerWidget {
         final expense = expenses.where((e) => e.id == expenseId).firstOrNull;
         if (expense == null) {
           return Scaffold(
-            appBar: AppBar(title: const Text('Expense Details')),
-            body: const Center(child: Text('Expense not found')),
+            appBar: AppBar(title: Text(AppLocalizations.of(context)!.expDetailTitle)),
+            body: Center(child: Text(AppLocalizations.of(context)!.expNotFound)),
           );
         }
 
@@ -95,7 +97,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
           (m) => m.id == expense.paidBy,
           orElse: () => HouseholdMemberModel(
             id: expense.paidBy,
-            name: 'Roommate',
+            name: AppLocalizations.of(context)!.expRoommate,
             joinedAt: DateTime.now(),
           ),
         );
@@ -110,12 +112,12 @@ class ExpenseDetailScreen extends ConsumerWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Expense Details'),
+            title: Text(AppLocalizations.of(context)!.expDetailTitle),
             actions: [
               if (canEdit) ...[
                 IconButton(
                   icon: const Icon(Icons.edit_outlined),
-                  tooltip: 'Edit',
+                  tooltip: AppLocalizations.of(context)!.expEditTooltip,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -131,7 +133,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.delete_outline,
                       color: AppColors.negative),
-                  tooltip: 'Delete',
+                  tooltip: AppLocalizations.of(context)!.expDeleteTooltip,
                   onPressed: () => _confirmDelete(context, ref, expense),
                 ),
               ],
@@ -216,11 +218,11 @@ class ExpenseDetailScreen extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Paid by',
+                        Text(AppLocalizations.of(context)!.expPaidByLabel,
                             style: Theme.of(context).textTheme.bodyMedium),
                         Text(
                           expense.paidBy == currentUserId
-                              ? 'You (${payer.name})'
+                              ? AppLocalizations.of(context)!.expYouWithName(payer.name)
                               : payer.name,
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
@@ -235,7 +237,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Date',
+                        Text(AppLocalizations.of(context)!.expDateLabel,
                             style: Theme.of(context).textTheme.bodyMedium),
                         Text(
                           DateFormatter.formatDate(expense.date),
@@ -254,7 +256,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Notes',
+                          Text(AppLocalizations.of(context)!.expNotesHeader,
                               style: Theme.of(context).textTheme.bodyMedium),
                           const SizedBox(width: 20),
                           Flexible(
@@ -280,7 +282,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Split Breakdown',
+                    AppLocalizations.of(context)!.expSplitBreakdown,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -293,7 +295,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        '${expense.splitType.toUpperCase()} SPLIT',
+                        '${expense.splitType.toUpperCase()} ${AppLocalizations.of(context)!.expSplitSuffix}',
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w800,
@@ -311,7 +313,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                   (m) => m.id == share.userId,
                   orElse: () => HouseholdMemberModel(
                     id: share.userId,
-                    name: 'Roommate',
+                    name: AppLocalizations.of(context)!.expRoommate,
                     joinedAt: DateTime.now(),
                   ),
                 );
@@ -353,7 +355,7 @@ class ExpenseDetailScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Text(
                               isMe
-                                  ? '${participant.name} (You)'
+                                  ? '${participant.name} ${AppLocalizations.of(context)!.expYouSuffix}'
                                   : participant.name,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -377,8 +379,8 @@ class ExpenseDetailScreen extends ConsumerWidget {
                                 expense.splitType == 'percentage'
                                     ? '${expense.splitAmounts![share.userId]}%'
                                     : expense.splitType == 'shares'
-                                        ? '${expense.splitAmounts![share.userId]?.toInt()} shares'
-                                        : 'Exact',
+                                        ? '${expense.splitAmounts![share.userId]?.toInt()} ${AppLocalizations.of(context)!.expSharesSuffix}'
+                                        : AppLocalizations.of(context)!.expExactSuffix,
                                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                       color: AppColors.primary,
                                       fontWeight: FontWeight.w600,
@@ -395,8 +397,9 @@ class ExpenseDetailScreen extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      loading: () => Scaffold(
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.expDetailTitle)),
+        body: const ExpenseDetailShimmer(),
       ),
       error: (err, _) => Scaffold(
         appBar: AppBar(title: const Text('Error')),

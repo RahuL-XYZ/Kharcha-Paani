@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/currency_formatter.dart';
@@ -158,21 +159,21 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(
+            segments: <ButtonSegment<String>>[
+              ButtonSegment<String>(
                 value: AppConstants.splitTypeEqual,
-                label: Text('='),
-                tooltip: 'Equal Split',
+                label: const Text('='),
+                tooltip: AppLocalizations.of(context)!.expSplitEqual,
               ),
-              ButtonSegment(
+              ButtonSegment<String>(
                 value: AppConstants.splitTypeExact,
-                label: Text('₹'),
-                tooltip: 'Exact Amount',
+                label: const Text('₹'),
+                tooltip: AppLocalizations.of(context)!.expSplitExact,
               ),
-              ButtonSegment(
+              ButtonSegment<String>(
                 value: AppConstants.splitTypeShares,
-                label: Text('⚖️'),
-                tooltip: 'Shares',
+                label: const Text('⚖️'),
+                tooltip: AppLocalizations.of(context)!.expSplitShares,
               ),
             ],
             selected: {widget.splitType},
@@ -193,7 +194,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Split between (${widget.selectedParticipantIds.length}/${widget.members.length})',
+              AppLocalizations.of(context)!.expSplitBetween(widget.selectedParticipantIds.length, widget.members.length),
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -209,7 +210,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
                   visualDensity: VisualDensity.compact,
                   padding: EdgeInsets.zero,
                 ),
-                child: Text(widget.selectedParticipantIds.length == widget.members.length ? 'Select only me' : 'Select all'),
+                child: Text(widget.selectedParticipantIds.length == widget.members.length ? AppLocalizations.of(context)!.expSelectOnlyMe : AppLocalizations.of(context)!.expSelectAll),
               ),
           ],
         ),
@@ -235,7 +236,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
           selected: isSelected,
           showCheckmark: true,
           label: Text(
-            isMe ? '${member.name} (You)' : member.name,
+            isMe ? '${member.name} ${AppLocalizations.of(context)!.expYouSuffix}' : member.name,
             style: TextStyle(
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               fontSize: 13,
@@ -276,15 +277,15 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
        isValid = (allocated - widget.totalExpenseAmount).abs() < 0.01;
        double remaining = widget.totalExpenseAmount - allocated;
        if (isValid) {
-          statusText = 'Fully allocated! (Total: ₹${widget.totalExpenseAmount.toStringAsFixed(2)})';
+          statusText = AppLocalizations.of(context)!.expAllocFully(widget.totalExpenseAmount.toStringAsFixed(2));
        } else if (remaining > 0) {
-          statusText = 'Remaining: ₹${remaining.toStringAsFixed(2)}';
+          statusText = AppLocalizations.of(context)!.expAllocRemaining(remaining.toStringAsFixed(2));
        } else {
-          statusText = 'Over-allocated by ₹${remaining.abs().toStringAsFixed(2)}';
+          statusText = AppLocalizations.of(context)!.expAllocOver(remaining.abs().toStringAsFixed(2));
        }
      } else if (widget.splitType == AppConstants.splitTypeShares) {
        isValid = allocated > 0;
-       statusText = 'Total Shares: ${allocated.toInt()}';
+       statusText = AppLocalizations.of(context)!.expAllocShares(allocated.toInt());
     }
 
     final activeMembers = widget.members.where((m) => widget.selectedParticipantIds.contains(m.id)).toList();
@@ -345,7 +346,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
-                    isMe ? '${member.name} (You)' : member.name,
+                    isMe ? '${member.name} ${AppLocalizations.of(context)!.expYouSuffix}' : member.name,
                     style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

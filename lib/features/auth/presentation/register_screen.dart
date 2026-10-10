@@ -6,7 +6,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/widgets/app_logo.dart';
 import '../providers/auth_provider.dart';
-
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -53,7 +53,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Account'),
+        title: Text(AppLocalizations.of(context)!.authRegisterTitle),
       ),
       body: SafeArea(
         child: Center(
@@ -71,7 +71,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                   ),
                   Text(
-                    'Get started with ${AppConstants.appName}',
+                    AppLocalizations.of(context)!.authRegisterSubtitle(AppConstants.appName),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.5,
@@ -79,7 +79,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'Share flat expenses fairly and transparently with roommates.',
+                    AppLocalizations.of(context)!.authRegisterDesc,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 28),
@@ -121,17 +121,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     controller: _nameController,
                     textInputAction: TextInputAction.next,
                     textCapitalization: TextCapitalization.words,
-                    decoration: const InputDecoration(
-                      labelText: 'Full Name',
-                      hintText: 'e.g. Rahul Sharma',
-                      prefixIcon: Icon(Icons.person_outline),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.authNameLabel,
+                      hintText: AppLocalizations.of(context)!.authNameHint,
+                      prefixIcon: const Icon(Icons.person_outline),
                     ),
                     validator: (val) {
                       if (val == null || val.trim().isEmpty) {
-                        return 'Please enter your name';
+                        return AppLocalizations.of(context)!.authNameEmptyError;
                       }
                       if (val.trim().length < 2) {
-                        return 'Name must be at least 2 characters';
+                        return AppLocalizations.of(context)!.authNameLengthError;
                       }
                       return null;
                     },
@@ -143,18 +143,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      labelText: 'Email Address',
-                      hintText: 'e.g. rahul@example.com',
-                      prefixIcon: Icon(Icons.email_outlined),
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.authEmailLabel,
+                      hintText: AppLocalizations.of(context)!.authEmailHint,
+                      prefixIcon: const Icon(Icons.email_outlined),
                     ),
                     validator: (val) {
                       if (val == null || val.trim().isEmpty) {
-                        return 'Please enter your email';
+                        return AppLocalizations.of(context)!.authEmailEmptyError;
                       }
                       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                           .hasMatch(val.trim())) {
-                        return 'Please enter a valid email address';
+                        return AppLocalizations.of(context)!.authEmailInvalidError;
                       }
                       return null;
                     },
@@ -167,8 +167,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     obscureText: _obscurePassword,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'At least 6 characters',
+                      labelText: AppLocalizations.of(context)!.authPasswordLabel,
+                      hintText: AppLocalizations.of(context)!.authPasswordHint2,
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -185,10 +185,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return 'Please enter a password';
+                        return AppLocalizations.of(context)!.authPasswordEmptyError;
                       }
                       if (val.length < 6) {
-                        return 'Password must be at least 6 characters';
+                        return AppLocalizations.of(context)!.authPasswordLengthError;
                       }
                       return null;
                     },
@@ -202,8 +202,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textInputAction: TextInputAction.done,
                     onFieldSubmitted: (_) => _handleRegister(),
                     decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      hintText: 'Repeat password',
+                      labelText: AppLocalizations.of(context)!.authConfirmPasswordLabel,
+                      hintText: AppLocalizations.of(context)!.authConfirmPasswordHint,
                       prefixIcon: const Icon(Icons.lock_reset_outlined),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -220,10 +220,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
-                        return 'Please confirm your password';
+                        return AppLocalizations.of(context)!.authConfirmPasswordEmptyError;
                       }
                       if (val != _passwordController.text) {
-                        return 'Passwords do not match';
+                        return AppLocalizations.of(context)!.authConfirmPasswordMatchError;
                       }
                       return null;
                     },
@@ -243,7 +243,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
                           )
-                        : const Text('Create Account'),
+                        : Text(AppLocalizations.of(context)!.authRegisterTitle),
                   ),
                   const SizedBox(height: 20),
 
@@ -252,7 +252,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Already have an account?',
+                        AppLocalizations.of(context)!.authHasAccountText,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       TextButton(
@@ -260,7 +260,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           ref.read(authControllerProvider.notifier).clearError();
                           context.pop();
                         },
-                        child: const Text('Log In'),
+                        child: Text(AppLocalizations.of(context)!.authLoginButton),
                       ),
                     ],
                   ),
@@ -273,3 +273,4 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 }
+

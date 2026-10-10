@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/routing/route_names.dart';
@@ -11,18 +12,20 @@ import '../../balances/providers/overall_balance_provider.dart';
 import '../../household/providers/household_provider.dart';
 import 'widgets/empty_household_view.dart';
 import 'widgets/household_card.dart';
+import '../../../core/ads/widgets/anchored_banner_ad.dart';
+import '../../../core/widgets/shimmer/skeletons/home_screen_shimmer.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
-  String _getTimeGreeting() {
+  String _getTimeGreeting(BuildContext context) {
     final hour = DateTime.now().hour;
     if (hour < 12) {
-      return 'Good morning';
+      return AppLocalizations.of(context)!.homeGreetingMorning;
     } else if (hour < 17) {
-      return 'Good afternoon';
+      return AppLocalizations.of(context)!.homeGreetingAfternoon;
     } else {
-      return 'Good evening';
+      return AppLocalizations.of(context)!.homeGreetingEvening;
     }
   }
 
@@ -33,7 +36,7 @@ class HomeScreen extends ConsumerWidget {
 
     final displayName = currentUser?.name.isNotEmpty == true
         ? currentUser!.name.split(' ').first
-        : 'Friend';
+        : AppLocalizations.of(context)!.homeFriend;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final overallBalanceAsync = ref.watch(overallUserBalanceProvider);
 
@@ -52,12 +55,12 @@ class HomeScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline),
-            tooltip: 'Profile & Settings',
+            tooltip: AppLocalizations.of(context)!.profileTitle,
             onPressed: () => context.push(RouteNames.profile),
           ),
-          const SizedBox(width: 8),
         ],
       ),
+      bottomNavigationBar: const AnchoredBannerAd(),
       body: householdsAsync.when(
         data: (households) {
           if (households.isEmpty) {
@@ -79,7 +82,7 @@ class HomeScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${_getTimeGreeting()}, $displayName 👋',
+                            '${_getTimeGreeting(context)}, $displayName 👋',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -90,7 +93,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Track and split expenses across all your groups',
+                            AppLocalizations.of(context)!.homeTrackSplitExpenses,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
@@ -138,7 +141,7 @@ class HomeScreen extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'TOTAL NET STANDING',
+                                AppLocalizations.of(context)!.homeTotalNetStanding,
                                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                                       letterSpacing: 1.2,
                                       fontWeight: FontWeight.w800,
@@ -152,7 +155,7 @@ class HomeScreen extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Text(
-                                  '${balance.totalHouseholds} ${balance.totalHouseholds == 1 ? 'group' : 'groups'}',
+                                  AppLocalizations.of(context)!.homeGroupCount(balance.totalHouseholds),
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
@@ -182,10 +185,10 @@ class HomeScreen extends ConsumerWidget {
                               Expanded(
                                 child: Text(
                                   isOwed
-                                      ? 'You are owed ${CurrencyFormatter.formatPaise(net)}'
+                                      ? AppLocalizations.of(context)!.homeYouAreOwed(CurrencyFormatter.formatPaise(net))
                                       : owes
-                                          ? 'You owe ${CurrencyFormatter.formatPaise(-net)}'
-                                          : 'You are all settled up!',
+                                          ? AppLocalizations.of(context)!.homeYouOwe(CurrencyFormatter.formatPaise(-net))
+                                          : AppLocalizations.of(context)!.homeSettledUp,
                                   style: TextStyle(
                                     fontSize: 19,
                                     fontWeight: FontWeight.w900,
@@ -211,7 +214,7 @@ class HomeScreen extends ConsumerWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Total to receive',
+                                      AppLocalizations.of(context)!.homeTotalToReceive,
                                       style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
                                     ),
                                     const SizedBox(height: 2),
@@ -234,7 +237,7 @@ class HomeScreen extends ConsumerWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Total you owe',
+                                        AppLocalizations.of(context)!.homeTotalYouOwe,
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
                                       ),
                                       const SizedBox(height: 2),
@@ -267,7 +270,7 @@ class HomeScreen extends ConsumerWidget {
                         onPressed: () =>
                             context.push(RouteNames.createHousehold),
                         icon: const Icon(Icons.add, size: 18),
-                        label: const Text('Create Group'),
+                        label: Text(AppLocalizations.of(context)!.homeCreateGroup),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
@@ -279,7 +282,7 @@ class HomeScreen extends ConsumerWidget {
                       child: OutlinedButton.icon(
                         onPressed: () => context.push(RouteNames.joinHousehold),
                         icon: const Icon(Icons.group_add_outlined, size: 18),
-                        label: const Text('Join Room'),
+                        label: Text(AppLocalizations.of(context)!.homeJoinRoom),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
@@ -295,13 +298,13 @@ class HomeScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'My Groups & Households',
+                      AppLocalizations.of(context)!.homeMyGroups,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
                     ),
                     Text(
-                      '${households.length} total',
+                      AppLocalizations.of(context)!.homeTotalCount(households.length),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
@@ -322,9 +325,7 @@ class HomeScreen extends ConsumerWidget {
             ),
           );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const HomeScreenShimmer(),
         error: (error, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -335,7 +336,7 @@ class HomeScreen extends ConsumerWidget {
                     color: AppColors.negative, size: 48),
                 const SizedBox(height: 16),
                 Text(
-                  'Failed to load households',
+                  AppLocalizations.of(context)!.homeFailedLoad,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
@@ -349,7 +350,7 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => ref.invalidate(userHouseholdsStreamProvider),
-                  child: const Text('Try Again'),
+                  child: Text(AppLocalizations.of(context)!.homeTryAgain),
                 ),
               ],
             ),
