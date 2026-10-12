@@ -131,15 +131,15 @@ class MemberBreakdownModal extends ConsumerWidget {
                 final isSettled = breakdown.isSettled;
 
                 final statusBgColor = isOwed
-                    ? (isDark ? const Color(0xFF064E3B) : const Color(0xFFE8F5E9))
+                    ? (isDark ? const Color(0xFF064E3B).withValues(alpha: 0.25) : const Color(0xFFECFDF5))
                     : owes
-                        ? (isDark ? const Color(0xFF7F1D1D) : const Color(0xFFFFEBEE))
+                        ? (isDark ? const Color(0xFFEF4444).withValues(alpha: 0.15) : const Color(0xFFFEF2F2))
                         : (isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight);
 
                 final statusTextColor = isOwed
-                    ? AppColors.positive
+                    ? (isDark ? const Color(0xFF34D399) : AppColors.positive)
                     : owes
-                        ? AppColors.negative
+                        ? (isDark ? const Color(0xFFFCA5A5) : AppColors.negative)
                         : AppColors.neutral;
 
                 return ListView(

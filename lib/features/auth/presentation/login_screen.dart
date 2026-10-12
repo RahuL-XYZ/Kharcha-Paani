@@ -50,7 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     void Function(String)? onFieldSubmitted,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? Colors.white : const Color(0xFF2C2C2C);
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,23 +79,44 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               fontSize: 13,
             ),
             filled: true,
-            fillColor: Colors.transparent,
+            fillColor: isDark
+                ? AppColors.surfaceVariantDark.withValues(alpha: 0.4)
+                : Colors.white,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                width: 1.2,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                width: 1.2,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFF5C431), width: 1.5),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.accent : AppColors.primary,
+                width: 1.5,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red, width: 1.2),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+                width: 1.2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+                width: 1.5,
+              ),
             ),
             suffixIcon: isPassword
                 ? IconButton(
@@ -121,8 +142,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? Colors.white : const Color(0xFF2C2C2C);
-    final bgColor = isDark ? const Color(0xFF131B2E) : const Color(0xFFFDF7F4); // Soft warm bg
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final bgColor = isDark ? AppColors.backgroundDark : AppColors.backgroundLight;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -214,7 +235,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ElevatedButton(
                   onPressed: authState.isLoading ? null : _handleLogin,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFF5B5C3), // Soft Rose Pink
+                    backgroundColor: isDark ? AppColors.accent : AppColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     elevation: 0,
@@ -273,7 +294,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Text(
                         "Sign Up then",
                         style: GoogleFonts.plusJakartaSans(
-                          color: const Color(0xFFF5B5C3),
+                          color: isDark ? AppColors.accent : AppColors.primary,
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                         ),

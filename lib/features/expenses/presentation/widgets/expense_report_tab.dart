@@ -7,16 +7,16 @@ import '../../../../models/expense_model.dart';
 import '../../../../models/household_member_model.dart';
 import '../../../../services/expense_calculation_service.dart';
 
-// Palette of distinct colors for chart segments
+// Palette of distinct colors for chart segments (Clean Financial Palette)
 const _chartColors = [
-  Color(0xFF56D7D8), // Vibrant Mint Cyan (Primary)
-  Color(0xFFF5C431), // Vibrant Warm Yellow (Secondary)
-  Color(0xFFF5B5C3), // Soft Rose Pink (Tertiary)
-  Color(0xFF78E08F), // Tropical Green
-  Color(0xFFA55EEA), // Playful Purple
-  Color(0xFFFD9644), // Peachy Orange
-  Color(0xFF45AAF2), // Bright Blue
-  Color(0xFFD1D8E0), // Soft Grey
+  Color(0xFF059669), // Emerald
+  Color(0xFF0EA5E9), // Sky Blue
+  Color(0xFF8B5CF6), // Violet
+  Color(0xFFF59E0B), // Amber
+  Color(0xFF14B8A6), // Teal
+  Color(0xFF64748B), // Slate
+  Color(0xFFF43F5E), // Rose
+  Color(0xFF6366F1), // Indigo
 ];
 
 class ExpenseReportTab extends StatefulWidget {

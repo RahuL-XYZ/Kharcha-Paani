@@ -7,7 +7,6 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/localization/locale_provider.dart';
-import '../../../core/widgets/app_logo.dart';
 import '../../../core/widgets/common_app_bar.dart';
 import '../../auth/providers/auth_provider.dart';
 
@@ -111,6 +110,7 @@ class ProfileScreen extends ConsumerWidget {
 
     final name = currentUser?.name ?? 'User';
     final email = currentUser?.email ?? '';
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final initials = name.isNotEmpty
         ? name.trim().split(' ').map((n) => n.isNotEmpty ? n[0] : '').take(2).join().toUpperCase()
         : '?';
@@ -130,7 +130,7 @@ class ProfileScreen extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 32,
-                    backgroundColor: const Color(0xFFF5B5C3),
+                    backgroundColor: isDark ? AppColors.accent : AppColors.primary,
                     foregroundColor: Colors.white,
                     child: Text(
                       initials,
@@ -283,46 +283,6 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: 24),
-
-          // // About & App Info Section
-          Text(
-            AppLocalizations.of(context)!.profileAbout,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-          const SizedBox(height: 8),
-          Card(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.info_outline, color: AppColors.secondary),
-                  title: Text(AppLocalizations.of(context)!.profileAboutApp),
-                  subtitle: Text(AppLocalizations.of(context)!.profileAboutSub),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    showAboutDialog(
-                      context: context,
-                      applicationName: AppConstants.appName,
-                      applicationVersion: AppConstants.appVersion,
-                      applicationLegalese: '© 2026 Kharcha Paani. All rights reserved.',
-                      applicationIcon: const AppLogo(size: 40),
-                    );
-                  },
-                ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(Icons.verified_outlined, color: AppColors.primary),
-                  title: const Text('Version'),
-                  trailing: const Text(
-                    AppConstants.appVersion,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-                ),
-              ],
-            ),
-          ),
           const SizedBox(height: 32),
 
           // Log Out Button
@@ -338,7 +298,19 @@ class ProfileScreen extends ConsumerWidget {
               label: Text(AppLocalizations.of(context)!.profileLogoutTitle),
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 24),
+
+          // App Version at Bottom
+          Center(
+            child: Text(
+              '${AppConstants.appName} v${AppConstants.appVersion}',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).textTheme.bodySmall?.color?.withValues(alpha: 0.6),
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 24),
         ],
       ),
     );

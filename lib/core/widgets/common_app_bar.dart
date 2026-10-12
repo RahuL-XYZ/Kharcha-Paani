@@ -38,7 +38,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final appBarBg = backgroundColor ??
         (isDark ? AppColors.surfaceDark : Colors.white);
-    final fgColor = isDark ? Colors.white : const Color(0xFF2C2C2C);
+    final fgColor = isDark ? Colors.white : AppColors.textPrimaryLight;
 
     return AppBar(
       title: title ?? (titleText != null ? Text(titleText!) : null),
@@ -52,7 +52,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: appBarBg,
       foregroundColor: fgColor,
       surfaceTintColor: Colors.transparent,
-      shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.3),
+      shadowColor: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
       iconTheme: IconThemeData(color: fgColor),
       actionsIconTheme: IconThemeData(color: fgColor),
       titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(

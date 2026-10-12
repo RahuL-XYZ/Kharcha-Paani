@@ -60,55 +60,58 @@ class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: isDark ? AppColors.backgroundDark : const Color(0xFFFDF7F4),
+      scaffoldBackgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       textTheme: finalTextTheme,
       iconTheme: IconThemeData(color: colorScheme.onSurface),
-      dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
+      dividerTheme: DividerThemeData(color: isDark ? AppColors.borderDark : AppColors.borderLight),
       listTileTheme: ListTileThemeData(
         iconColor: colorScheme.onSurfaceVariant,
         textColor: colorScheme.onSurface,
       ),
       
-      // Modern M3 AppBar
+      // Modern Clean AppBar
       appBarTheme: AppBarTheme(
         centerTitle: false,
         elevation: 0,
-        scrolledUnderElevation: 2,
-        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.appBarDarkBlue,
-        foregroundColor: Colors.white,
+        scrolledUnderElevation: 1,
+        backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
+        foregroundColor: isDark ? Colors.white : AppColors.textPrimaryLight,
         surfaceTintColor: Colors.transparent,
-        iconTheme: const IconThemeData(color: Colors.white),
-        actionsIconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: isDark ? Colors.white : AppColors.textPrimaryLight),
+        actionsIconTheme: IconThemeData(color: isDark ? Colors.white : AppColors.textPrimaryLight),
         titleTextStyle: titleTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.w700,
-          color: Colors.white,
+          color: isDark ? Colors.white : AppColors.textPrimaryLight,
         ),
       ),
 
-      // M3 Expressive Cards (Very rounded)
+      // M3 Clean Slate Cards
       cardTheme: CardThemeData(
         elevation: 0,
-        shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.15),
+        shadowColor: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
         color: isDark ? colorScheme.surfaceContainer : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
+          side: BorderSide(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+            width: 1.0,
+          ),
         ),
         clipBehavior: Clip.antiAlias,
       ),
 
-      // Pill-shaped Buttons
+      // Clean Emerald Buttons
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: const Color(0xFFF5B5C3),
+          backgroundColor: isDark ? AppColors.accent : AppColors.primary,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(28),
           ),
           textStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 16,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -116,36 +119,11 @@ class AppTheme {
       
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          backgroundColor: isDark ? AppColors.accent : AppColors.primary,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          textStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.5),
-          textStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(28),
           ),
           textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 15,
@@ -154,37 +132,80 @@ class AppTheme {
         ),
       ),
 
-      // M3 Floating Action Button (Rounded Rectangle, not circular)
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 15),
+          foregroundColor: isDark ? Colors.white : AppColors.textPrimaryLight,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+          side: BorderSide(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+            width: 1.2,
+          ),
+          textStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          foregroundColor: isDark ? AppColors.accent : AppColors.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          textStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+
+      // Floating Action Button
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         elevation: 2,
         highlightElevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(16),
         ),
-        backgroundColor: colorScheme.primaryContainer,
-        foregroundColor: colorScheme.onPrimaryContainer,
+        backgroundColor: isDark ? AppColors.accent : AppColors.primary,
+        foregroundColor: Colors.white,
       ),
 
-      // Expressive Inputs — Rose Pink borders, Yellow focus (matches Auth screens)
+      // Clean Slate Inputs with Emerald focus ring
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isDark ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.3) : Colors.transparent,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        fillColor: isDark
+            ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.3)
+            : Colors.white,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+          borderSide: BorderSide(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+            width: 1.2,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+          borderSide: BorderSide(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+            width: 1.2,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFF5C431), width: 1.5),
+          borderSide: BorderSide(
+            color: isDark ? AppColors.accent : AppColors.primary,
+            width: 1.5,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
+          borderSide: BorderSide(color: colorScheme.error, width: 1.2),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -195,31 +216,42 @@ class AppTheme {
       // Dialogs
       dialogTheme: DialogThemeData(
         elevation: 0,
-        shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.2),
+        backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
+        shadowColor: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
+          side: BorderSide(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+            width: 1.0,
+          ),
         ),
       ),
       
       // Bottom Sheet
       bottomSheetTheme: BottomSheetThemeData(
         elevation: 0,
-        backgroundColor: isDark ? AppColors.surfaceDark : const Color(0xFFFDF7F4),
-        shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.2),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          side: BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
+        backgroundColor: isDark ? AppColors.surfaceDark : Colors.white,
+        shadowColor: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
+        shape: RoundedRectangleBorder(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          side: BorderSide(
+            color: isDark ? AppColors.borderDark : AppColors.borderLight,
+            width: 1.0,
+          ),
         ),
       ),
       
       // Chips
       chipTheme: ChipThemeData(
         elevation: 0,
+        backgroundColor: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
+        side: BorderSide(
+          color: isDark ? AppColors.borderDark : AppColors.borderLight,
+          width: 1.0,
+        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
+import '../../../core/constants/app_colors.dart';
 import '../providers/auth_provider.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
@@ -69,23 +70,44 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               fontSize: 13,
             ),
             filled: true,
-            fillColor: Colors.transparent,
+            fillColor: isDark
+                ? AppColors.surfaceVariantDark.withValues(alpha: 0.4)
+                : Colors.white,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                width: 1.2,
+              ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                width: 1.2,
+              ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Color(0xFFF5C431), width: 1.5),
+              borderSide: BorderSide(
+                color: isDark ? AppColors.accent : AppColors.primary,
+                width: 1.5,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.red, width: 1.2),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+                width: 1.2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+                width: 1.5,
+              ),
             ),
           ),
         ),
@@ -97,8 +119,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? Colors.white : const Color(0xFF2C2C2C);
-    final bgColor = isDark ? const Color(0xFF131B2E) : const Color(0xFFFDF7F4); // Soft warm bg
+    final textColor = isDark ? Colors.white : AppColors.textPrimaryLight;
+    final bgColor = isDark ? AppColors.backgroundDark : AppColors.backgroundLight;
 
     return Scaffold(
       backgroundColor: bgColor,
@@ -184,7 +206,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       ElevatedButton(
                         onPressed: authState.isLoading ? null : _handleReset,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFF5B5C3), // Soft Rose Pink
+                          backgroundColor: isDark ? AppColors.accent : AppColors.primary,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           elevation: 0,
@@ -215,6 +237,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   Widget _buildSuccessView(Color textColor) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -249,7 +272,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         ElevatedButton(
           onPressed: () => context.pop(),
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFF5B5C3),
+            backgroundColor: isDark ? AppColors.accent : AppColors.primary,
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 16),
             elevation: 0,

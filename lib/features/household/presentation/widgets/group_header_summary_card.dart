@@ -27,23 +27,23 @@ class GroupHeaderSummaryCard extends StatelessWidget {
     final owes = net < 0;
     final isSettled = net == 0;
 
-    // Status visual styles
+    // Status visual styles: subtle tint for background with crisp, readable text and icons
     final statusBgColor = isOwed
-        ? (isDark ? const Color(0xFF064E3B) : const Color(0xFFE8F5E9))
+        ? (isDark ? const Color(0xFF064E3B).withValues(alpha: 0.25) : const Color(0xFFECFDF5))
         : owes
-            ? (isDark ? const Color(0xFF7F1D1D) : const Color(0xFFFFEBEE))
-            : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9));
+            ? (isDark ? const Color(0xFFEF4444).withValues(alpha: 0.15) : const Color(0xFFFEF2F2))
+            : (isDark ? AppColors.surfaceVariantDark : const Color(0xFFF1F5F9));
 
     final statusBorderColor = isOwed
-        ? AppColors.positive.withValues(alpha: 0.3)
+        ? AppColors.positive.withValues(alpha: isDark ? 0.4 : 0.3)
         : owes
-            ? AppColors.negative.withValues(alpha: 0.3)
+            ? AppColors.negative.withValues(alpha: isDark ? 0.4 : 0.3)
             : Theme.of(context).dividerColor;
 
     final statusTextColor = isOwed
-        ? AppColors.positive
+        ? (isDark ? const Color(0xFF34D399) : AppColors.positive)
         : owes
-            ? AppColors.negative
+            ? (isDark ? const Color(0xFFFCA5A5) : AppColors.negative)
             : (isDark ? Colors.white70 : AppColors.textSecondaryLight);
 
     final statusTitle = isOwed

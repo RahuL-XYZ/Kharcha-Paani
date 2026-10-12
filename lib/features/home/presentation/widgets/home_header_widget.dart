@@ -30,11 +30,11 @@ class HomeHeaderWidget extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF0D6E6F), // Deep Teal (dark Mint Cyan)
-              Color(0xFF1A9696), // Mid Deep Cyan
-              Color(0xFFB0456A), // Deep Rose Pink
+              Color(0xFF0F172A), // Slate 900
+              Color(0xFF1E293B), // Slate 800
+              Color(0xFF064E3B), // Deep Emerald Slate
             ],
-            stops: [0.0, 0.55, 1.0],
+            stops: [0.0, 0.65, 1.0],
           ),
         ),
         child: SafeArea(
