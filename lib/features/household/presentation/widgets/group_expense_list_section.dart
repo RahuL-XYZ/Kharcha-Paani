@@ -45,7 +45,7 @@ class GroupExpenseListSection extends StatelessWidget {
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: const Icon(
                     Icons.receipt_long_rounded,
@@ -94,7 +94,7 @@ class GroupExpenseListSection extends StatelessWidget {
               color: isDark
                   ? AppColors.surfaceVariantDark
                   : AppColors.surfaceLight,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(5),
               border: Border.all(
                 color: isDark ? AppColors.borderDark : AppColors.borderLight,
               ),
@@ -154,14 +154,14 @@ class GroupExpenseListSection extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () => onTapExpense(expense),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(5),
                   child: Container(
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       color: isDark
                           ? AppColors.surfaceVariantDark
                           : AppColors.surfaceLight,
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(5),
                       border: Border.all(
                         color: isDark
                             ? AppColors.borderDark
@@ -175,7 +175,7 @@ class GroupExpenseListSection extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: cat.color.withValues(alpha: 0.14),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           child: Icon(cat.icon, size: 20, color: cat.color),
                         ),

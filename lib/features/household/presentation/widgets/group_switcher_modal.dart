@@ -69,7 +69,7 @@ class GroupSwitcherModal extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : AppColors.surfaceLight,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
       ),
       child: SafeArea(
         top: false,
@@ -83,7 +83,7 @@ class GroupSwitcherModal extends ConsumerWidget {
               height: 4,
               decoration: BoxDecoration(
                 color: isDark ? AppColors.borderDark : AppColors.borderLight,
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             const SizedBox(height: 16),
@@ -241,14 +241,14 @@ class _GroupTile extends ConsumerWidget {
       color: isSelected
           ? (isDark ? AppColors.surfaceVariantDark : AppColors.primaryLight)
           : (isDark ? AppColors.surfaceVariantDark.withValues(alpha: 0.5) : AppColors.surfaceVariantLight),
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(5),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(5),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: isSelected
                   ? AppColors.primary
@@ -263,7 +263,7 @@ class _GroupTile extends ConsumerWidget {
                 height: 40,
                 decoration: BoxDecoration(
                   color: catColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 child: Icon(catIcon, color: catColor, size: 20),
               ),
@@ -309,7 +309,7 @@ class _GroupTile extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: isOwed ? AppColors.positiveLight : AppColors.negativeLight,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
                           isOwed ? '+₹${(net / 100).toStringAsFixed(0)}' : '-₹${(-net / 100).toStringAsFixed(0)}',

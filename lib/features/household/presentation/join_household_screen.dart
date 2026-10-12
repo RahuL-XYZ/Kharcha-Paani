@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../providers/household_provider.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class JoinHouseholdScreen extends ConsumerStatefulWidget {
   const JoinHouseholdScreen({super.key});
@@ -48,8 +49,8 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
     final state = ref.watch(householdControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.hhJoinTitle),
+      appBar: CommonAppBar(
+        titleText: AppLocalizations.of(context)!.hhJoinTitle,
       ),
       body: SafeArea(
         child: Padding(
@@ -63,7 +64,7 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: AppColors.secondaryContainer,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Row(
                     children: [
@@ -91,7 +92,7 @@ class _JoinHouseholdScreenState extends ConsumerState<JoinHouseholdScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppColors.negativeLight,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       state.errorMessage!,

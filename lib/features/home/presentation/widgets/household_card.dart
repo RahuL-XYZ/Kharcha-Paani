@@ -64,7 +64,7 @@ class HouseholdCard extends ConsumerWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(5),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -78,7 +78,7 @@ class HouseholdCard extends ConsumerWidget {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: catColor.withValues(alpha: isDark ? 0.2 : 0.12),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Icon(
                       catIcon,
@@ -120,7 +120,7 @@ class HouseholdCard extends ConsumerWidget {
                                 color: isDark
                                     ? AppColors.surfaceVariantDark
                                     : AppColors.surfaceVariantLight,
-                                borderRadius: BorderRadius.circular(6),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               child: Text(
                                 '#${household.inviteCode}',
@@ -189,7 +189,7 @@ class HouseholdCard extends ConsumerWidget {
                                   : isDark
                                       ? AppColors.surfaceVariantDark
                                       : AppColors.surfaceVariantLight,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

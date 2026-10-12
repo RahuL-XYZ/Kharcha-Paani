@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class InviteCodeScreen extends StatelessWidget {
   final String householdId;
@@ -22,7 +23,7 @@ class InviteCodeScreen extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -75,7 +76,7 @@ class InviteCodeScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
                 decoration: BoxDecoration(
                   color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceVariantLight,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isDark ? AppColors.borderDark : AppColors.borderLight,
                     width: 1.5,

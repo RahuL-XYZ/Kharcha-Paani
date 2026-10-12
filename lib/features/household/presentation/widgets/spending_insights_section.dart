@@ -35,7 +35,7 @@ class SpendingInsightsSection extends StatelessWidget {
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: const Icon(
                     Icons.insights_rounded,
@@ -86,7 +86,7 @@ class SpendingInsightsSection extends StatelessWidget {
                     color: isDark
                         ? AppColors.surfaceVariantDark
                         : AppColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(5),
                     border: Border.all(
                       color: isDark
                           ? AppColors.borderDark
@@ -147,7 +147,7 @@ class SpendingInsightsSection extends StatelessWidget {
                     color: isDark
                         ? AppColors.surfaceVariantDark
                         : AppColors.surfaceLight,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(5),
                     border: Border.all(
                       color: isDark
                           ? AppColors.borderDark
@@ -207,7 +207,7 @@ class SpendingInsightsSection extends StatelessWidget {
                   color: isDark
                       ? AppColors.surfaceVariantDark
                       : AppColors.surfaceLight,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isDark
                         ? AppColors.borderDark
@@ -266,7 +266,7 @@ class SpendingInsightsSection extends StatelessWidget {
             color: isDark
                 ? AppColors.surfaceVariantDark
                 : AppColors.surfaceLight,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: isDark ? AppColors.borderDark : AppColors.borderLight,
             ),
@@ -297,7 +297,7 @@ class SpendingInsightsSection extends StatelessWidget {
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                               color: catItem.color.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Icon(catItem.icon,
                                 size: 14, color: catItem.color),
@@ -331,7 +331,7 @@ class SpendingInsightsSection extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(5),
                         child: LinearProgressIndicator(
                           value: percent / 100,
                           minHeight: 6,

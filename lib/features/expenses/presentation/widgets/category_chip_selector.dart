@@ -29,7 +29,7 @@ class CategoryChipSelector extends StatelessWidget {
 
           return InkWell(
             onTap: () => onSelected(cat.id),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(5),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 80,
@@ -40,7 +40,7 @@ class CategoryChipSelector extends StatelessWidget {
                     : isDark
                         ? AppColors.surfaceVariantDark
                         : AppColors.surfaceVariantLight,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(5),
                 border: Border.all(
                   color: isSelected
                       ? cat.color

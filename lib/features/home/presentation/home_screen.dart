@@ -3,14 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_constants.dart';
 import '../../../core/routing/route_names.dart';
-import '../../../core/utils/currency_formatter.dart';
-import '../../../core/widgets/app_logo.dart';
 import '../../auth/providers/auth_provider.dart';
 import '../../balances/providers/overall_balance_provider.dart';
 import '../../household/providers/household_provider.dart';
 import 'widgets/empty_household_view.dart';
+import 'widgets/home_header_widget.dart';
 import 'widgets/household_card.dart';
 import '../../../core/ads/widgets/anchored_banner_ad.dart';
 import '../../../core/widgets/shimmer/skeletons/home_screen_shimmer.dart';
@@ -33,294 +31,135 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
     final householdsAsync = ref.watch(userHouseholdsStreamProvider);
+    final overallBalanceAsync = ref.watch(overallUserBalanceProvider);
 
     final displayName = currentUser?.name.isNotEmpty == true
         ? currentUser!.name.split(' ').first
         : AppLocalizations.of(context)!.homeFriend;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final overallBalanceAsync = ref.watch(overallUserBalanceProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const AppLogo(size: 32),
-            const SizedBox(width: 10),
-            const Text(
-              AppConstants.appName,
-              style: TextStyle(fontWeight: FontWeight.w800),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person_outline),
-            tooltip: AppLocalizations.of(context)!.profileTitle,
-            onPressed: () => context.push(RouteNames.profile),
-          ),
-        ],
-      ),
+      // No AppBar — the gradient header is inline in the body
+      extendBodyBehindAppBar: false,
       bottomNavigationBar: const AnchoredBannerAd(),
       body: householdsAsync.when(
         data: (households) {
           if (households.isEmpty) {
-            return const EmptyHouseholdView();
+            return Column(
+              children: [
+                // Show header even when empty
+                HomeHeaderWidget(
+                  overallBalanceAsync: overallBalanceAsync,
+                  displayName: displayName,
+                  greeting: _getTimeGreeting(context),
+                ),
+                const Expanded(child: EmptyHouseholdView()),
+              ],
+            );
           }
 
           return RefreshIndicator(
             onRefresh: () async {
               ref.invalidate(userHouseholdsStreamProvider);
             },
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              children: [
-                // Greeting Header
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${_getTimeGreeting(context)}, $displayName 👋',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: -0.5,
-                                ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            AppLocalizations.of(context)!.homeTrackSplitExpenses,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                // Overall Balance Summary Card
-                overallBalanceAsync.maybeWhen(
-                  data: (balance) {
-                    if (balance.totalHouseholds == 0) return const SizedBox.shrink();
-                    final net = balance.netBalancePaise;
-                    final isOwed = net > 0;
-                    final owes = net < 0;
-
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 20),
-                      padding: const EdgeInsets.all(18),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: isDark
-                              ? [const Color(0xFF162032), const Color(0xFF0F172A)]
-                              : [const Color(0xFFF1FBF5), const Color(0xFFE5F8EE)],
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: isDark ? AppColors.borderDark : const Color(0xFFC3EED5),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.homeTotalNetStanding,
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      letterSpacing: 1.2,
-                                      fontWeight: FontWeight.w800,
-                                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
-                                    ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: isDark ? AppColors.surfaceVariantDark : Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  AppLocalizations.of(context)!.homeGroupCount(balance.totalHouseholds),
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: isDark ? AppColors.textTertiaryDark : AppColors.textSecondaryLight,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Icon(
-                                isOwed
-                                    ? Icons.arrow_circle_down_rounded
-                                    : owes
-                                        ? Icons.arrow_circle_up_rounded
-                                        : Icons.check_circle_rounded,
-                                color: isOwed
-                                    ? AppColors.positive
-                                    : owes
-                                        ? AppColors.negative
-                                        : AppColors.neutral,
-                                size: 28,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  isOwed
-                                      ? AppLocalizations.of(context)!.homeYouAreOwed(CurrencyFormatter.formatPaise(net))
-                                      : owes
-                                          ? AppLocalizations.of(context)!.homeYouOwe(CurrencyFormatter.formatPaise(-net))
-                                          : AppLocalizations.of(context)!.homeSettledUp,
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w900,
-                                    color: isOwed
-                                        ? AppColors.positive
-                                        : owes
-                                            ? AppColors.negative
-                                            : (isDark ? AppColors.textPrimaryDark : AppColors.textPrimaryLight),
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 14),
-                          const Divider(),
-                          const SizedBox(height: 8),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.homeTotalToReceive,
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
-                                    ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      CurrencyFormatter.formatPaise(balance.totalYouShouldReceivePaise),
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.positive,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(height: 24, width: 1, color: Theme.of(context).dividerColor),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)!.homeTotalYouOwe,
-                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
-                                      ),
-                                      const SizedBox(height: 2),
-                                      Text(
-                                        CurrencyFormatter.formatPaise(balance.totalYouOwePaise),
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColors.negative,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  orElse: () => const SizedBox.shrink(),
-                ),
-
-                // Quick Action Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () =>
-                            context.push(RouteNames.createHousehold),
-                        icon: const Icon(Icons.add, size: 18),
-                        label: Text(AppLocalizations.of(context)!.homeCreateGroup),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () => context.push(RouteNames.joinHousehold),
-                        icon: const Icon(Icons.group_add_outlined, size: 18),
-                        label: Text(AppLocalizations.of(context)!.homeJoinRoom),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // Groups Section Header
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.homeMyGroups,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.homeTotalCount(households.length),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-
-                // Household Cards List
-                ...households.map(
-                  (household) => HouseholdCard(
-                    household: household,
-                    onTap: () {
-                      context.push('/household/${household.id}');
-                    },
+            child: CustomScrollView(
+              slivers: [
+                // ── Hero Header ──
+                SliverToBoxAdapter(
+                  child: HomeHeaderWidget(
+                    overallBalanceAsync: overallBalanceAsync,
+                    displayName: displayName,
+                    greeting: _getTimeGreeting(context),
                   ),
                 ),
-                const SizedBox(height: 40),
+
+                // ── Content Section ──
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Quick Action Buttons
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: () =>
+                                    context.push(RouteNames.createHousehold),
+                                icon: const Icon(Icons.add, size: 18),
+                                label: Text(AppLocalizations.of(context)!
+                                    .homeCreateGroup),
+                                style: ElevatedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: () =>
+                                    context.push(RouteNames.joinHousehold),
+                                icon: const Icon(Icons.group_add_outlined,
+                                    size: 18),
+                                label: Text(AppLocalizations.of(context)!
+                                    .homeJoinRoom),
+                                style: OutlinedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  textStyle: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Groups Section Header
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.homeMyGroups,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .homeTotalCount(households.length),
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // ── Household Cards ──
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => HouseholdCard(
+                        household: households[index],
+                        onTap: () {
+                          context
+                              .push('/household/${households[index].id}');
+                        },
+                      ),
+                      childCount: households.length,
+                    ),
+                  ),
+                ),
               ],
             ),
           );
@@ -349,7 +188,8 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () => ref.invalidate(userHouseholdsStreamProvider),
+                  onPressed: () =>
+                      ref.invalidate(userHouseholdsStreamProvider),
                   child: Text(AppLocalizations.of(context)!.homeTryAgain),
                 ),
               ],
@@ -360,3 +200,4 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 }
+

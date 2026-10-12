@@ -60,7 +60,7 @@ class AppTheme {
       useMaterial3: true,
       brightness: brightness,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: isDark ? AppColors.backgroundDark : const Color(0xFFF1F5F9),
+      scaffoldBackgroundColor: isDark ? AppColors.backgroundDark : const Color(0xFFFDF7F4),
       textTheme: finalTextTheme,
       iconTheme: IconThemeData(color: colorScheme.onSurface),
       dividerTheme: DividerThemeData(color: colorScheme.outlineVariant),
@@ -74,7 +74,7 @@ class AppTheme {
         centerTitle: false,
         elevation: 0,
         scrolledUnderElevation: 2,
-        backgroundColor: const Color(0xFF1A73E8), // Mail Blue
+        backgroundColor: isDark ? AppColors.surfaceDark : AppColors.appBarDarkBlue,
         foregroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.white),
@@ -87,12 +87,12 @@ class AppTheme {
 
       // M3 Expressive Cards (Very rounded)
       cardTheme: CardThemeData(
-        elevation: 6,
-        shadowColor: const Color(0xFF1A73E8).withValues(alpha: 0.15),
+        elevation: 0,
+        shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.15),
         color: isDark ? colorScheme.surfaceContainer : Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-          side: const BorderSide(color: Color(0xFFD2E3FC), width: 1.5),
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
         ),
         clipBehavior: Clip.antiAlias,
       ),
@@ -101,9 +101,11 @@ class AppTheme {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
+          backgroundColor: const Color(0xFFF5B5C3),
+          foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100), // Fully pill-shaped
+            borderRadius: BorderRadius.circular(30),
           ),
           textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 16,
@@ -116,7 +118,7 @@ class AppTheme {
         style: FilledButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(30),
           ),
           textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 16,
@@ -129,9 +131,9 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(30),
           ),
-          side: BorderSide(color: colorScheme.outlineVariant),
+          side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.5),
           textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -143,7 +145,7 @@ class AppTheme {
         style: TextButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(5),
           ),
           textStyle: GoogleFonts.plusJakartaSans(
             fontSize: 15,
@@ -157,63 +159,67 @@ class AppTheme {
         elevation: 2,
         highlightElevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(5),
         ),
         backgroundColor: colorScheme.primaryContainer,
         foregroundColor: colorScheme.onPrimaryContainer,
       ),
 
-      // Expressive Inputs
+      // Expressive Inputs — Rose Pink borders, Yellow focus (matches Auth screens)
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isDark ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.5) : Colors.white,
+        fillColor: isDark ? colorScheme.surfaceContainerHighest.withValues(alpha: 0.3) : Colors.transparent,
         contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFD2E3FC), width: 1.5),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFD2E3FC), width: 1.5),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFD2E3FC), width: 2.5),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFFF5C431), width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: colorScheme.error, width: 2),
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
         ),
       ),
 
       // Dialogs
       dialogTheme: DialogThemeData(
-        elevation: 6,
-        shadowColor: const Color(0xFF1A73E8).withValues(alpha: 0.15),
+        elevation: 0,
+        shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.2),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28), // M3 Spec
-          side: const BorderSide(color: Color(0xFFD2E3FC), width: 1.5),
+          borderRadius: BorderRadius.circular(20),
+          side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
         ),
       ),
       
       // Bottom Sheet
       bottomSheetTheme: BottomSheetThemeData(
-        elevation: 6,
-        shadowColor: const Color(0xFF1A73E8).withValues(alpha: 0.15),
+        elevation: 0,
+        backgroundColor: isDark ? AppColors.surfaceDark : const Color(0xFFFDF7F4),
+        shadowColor: const Color(0xFFF5B5C3).withValues(alpha: 0.2),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-          side: BorderSide(color: Color(0xFFD2E3FC), width: 1.5),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          side: BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
         ),
       ),
       
       // Chips
       chipTheme: ChipThemeData(
-        elevation: 2,
-        shadowColor: const Color(0xFF1A73E8).withValues(alpha: 0.15),
+        elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(20),
         ),
-        side: const BorderSide(color: Color(0xFFD2E3FC), width: 1.0),
+        side: const BorderSide(color: Color(0xFFF5B5C3), width: 1.0),
       ),
     );
   }

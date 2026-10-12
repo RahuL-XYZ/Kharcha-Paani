@@ -26,6 +26,7 @@ import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/widgets/shimmer/skeletons/household_dashboard_shimmer.dart';
 import '../../../core/widgets/shimmer/shimmer_placeholders.dart';
 import '../../../core/widgets/shimmer/app_shimmer.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class HouseholdDashboardScreen extends ConsumerStatefulWidget {
   final String householdId;
@@ -53,7 +54,7 @@ class _HouseholdDashboardScreenState
       data: (household) {
         if (household == null) {
           return Scaffold(
-            appBar: AppBar(title: Text(AppLocalizations.of(context)!.hhDashboardHouseholdTitle)),
+            appBar: CommonAppBar(titleText: AppLocalizations.of(context)!.hhDashboardHouseholdTitle),
             body: Center(child: Text(AppLocalizations.of(context)!.hhDashboardHouseholdNotFound)),
           );
         }
@@ -145,7 +146,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
     final isOwner = household.createdBy == currentUserId;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           tooltip: AppLocalizations.of(context)!.hhDashboardAllGroups,
@@ -153,7 +154,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
         ),
         title: InkWell(
           onTap: () => GroupSwitcherModal.show(context, householdId),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(5),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
             child: Column(
@@ -165,20 +166,20 @@ class _DashboardOverviewTab extends ConsumerWidget {
                     Flexible(
                       child: Text(
                         household.name,
-                        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
+                        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 17, color: Colors.white),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 2),
-                    const Icon(Icons.keyboard_arrow_down_rounded, size: 20),
+                    const Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: Colors.white),
                   ],
                 ),
                 Row(
                   children: [
                     Text(
                       AppLocalizations.of(context)!.homeMemberCount(household.memberCount),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11, color: Colors.white70),
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -187,6 +188,7 @@ class _DashboardOverviewTab extends ConsumerWidget {
                             fontFamily: 'monospace',
                             fontWeight: FontWeight.w600,
                             fontSize: 11,
+                            color: Colors.white70,
                           ),
                     ),
                   ],

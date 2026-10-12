@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/widgets/app_logo.dart';
-import '../providers/auth_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
+import '../providers/auth_provider.dart';
+
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -25,12 +25,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
   Future<void> _handleReset() async {
     if (!_formKey.currentState!.validate()) return;
-
     FocusScope.of(context).unfocus();
     final success = await ref
         .read(authControllerProvider.notifier)
         .sendPasswordReset(email: _emailController.text.trim());
-
     if (success && mounted) {
       setState(() {
         _emailSent = true;
@@ -38,130 +36,175 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     }
   }
 
+  Widget _buildTextField({
+    required String label,
+    required String hint,
+    required TextEditingController controller,
+    String? Function(String?)? validator,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : const Color(0xFF2C2C2C);
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+            color: textColor,
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          validator: validator,
+          keyboardType: TextInputType.emailAddress,
+          style: TextStyle(color: textColor, fontSize: 14),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: TextStyle(
+              color: textColor.withValues(alpha: 0.4),
+              fontSize: 13,
+            ),
+            filled: true,
+            fillColor: Colors.transparent,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFF5B5C3), width: 1.2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Color(0xFFF5C431), width: 1.5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: Colors.red, width: 1.2),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authControllerProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : const Color(0xFF2C2C2C);
+    final bgColor = isDark ? const Color(0xFF131B2E) : const Color(0xFFFDF7F4); // Soft warm bg
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.authResetTitle),
-      ),
+      backgroundColor: bgColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
           child: _emailSent
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryLight,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.mark_email_read_outlined,
-                          size: 48,
-                          color: AppColors.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        AppLocalizations.of(context)!.authCheckEmailTitle,
-                        style:
-                            Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                ),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        AppLocalizations.of(context)!.authCheckEmailDesc(_emailController.text),
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      const SizedBox(height: 32),
-                      ElevatedButton(
-                        onPressed: () => context.pop(),
-                        child: Text(AppLocalizations.of(context)!.authBackToLogin),
-                      ),
-                    ],
-                  ),
-                )
+              ? _buildSuccessView(textColor)
               : Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: 20),
-                          child: AppLogo(size: 64),
+                      // Back Button
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          onPressed: () => context.pop(),
+                          icon: Icon(Icons.arrow_back, color: textColor),
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.centerLeft,
                         ),
                       ),
+                      
+                      // Illustration
+                      Center(
+                        child: Image.asset(
+                          'assets/images/forgot_password_img.png',
+                          height: 200,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      
+                      // Titles
                       Text(
-                        AppLocalizations.of(context)!.authForgotTitle,
-                        style:
-                            Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                ),
+                        'Forgot Password',
+                        style: GoogleFonts.outfit(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w800,
+                          color: textColor,
+                          letterSpacing: -0.5,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        AppLocalizations.of(context)!.authForgotDesc,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        'Enter your email address to reset it',
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 14,
+                          color: textColor.withValues(alpha: 0.6),
+                        ),
                       ),
                       const SizedBox(height: 32),
+
                       if (authState.errorMessage != null) ...[
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: AppColors.negativeLight,
-                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.red.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
                             authState.errorMessage!,
-                            style: const TextStyle(
-                              color: AppColors.negative,
-                              fontSize: 13,
-                            ),
+                            style: const TextStyle(color: Colors.red, fontSize: 13),
                           ),
                         ),
                         const SizedBox(height: 20),
                       ],
-                      TextFormField(
+
+                      // Form Fields
+                      _buildTextField(
+                        label: 'Email',
+                        hint: 'Enter your email address',
                         controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.authEmailLabel,
-                          hintText: AppLocalizations.of(context)!.authEmailHint,
-                          prefixIcon: const Icon(Icons.email_outlined),
-                        ),
                         validator: (val) {
-                          if (val == null || val.trim().isEmpty) {
-                            return AppLocalizations.of(context)!.authEmailEmptyError;
-                          }
-                          if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(val.trim())) {
-                            return AppLocalizations.of(context)!.authEmailInvalidError;
-                          }
+                          if (val == null || val.trim().isEmpty) return AppLocalizations.of(context)!.authEmailEmptyError;
                           return null;
                         },
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 32),
+
+                      // Reset Button
                       ElevatedButton(
                         onPressed: authState.isLoading ? null : _handleReset,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFF5B5C3), // Soft Rose Pink
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
                         child: authState.isLoading
                             ? const SizedBox(
-                                width: 22,
-                                height: 22,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white),
-                                ),
+                                width: 22, height: 22,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                               )
-                            : Text(AppLocalizations.of(context)!.authSendResetLink),
+                            : Text(
+                                'Send Reset Link',
+                                style: GoogleFonts.outfit(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
                       ),
                     ],
                   ),
@@ -170,5 +213,59 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       ),
     );
   }
-}
 
+  Widget _buildSuccessView(Color textColor) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: 40),
+        Center(
+          child: Image.asset(
+            'assets/images/forgot_password_img.png',
+            height: 200,
+            fit: BoxFit.contain,
+          ),
+        ),
+        const SizedBox(height: 40),
+        Text(
+          AppLocalizations.of(context)!.authCheckEmailTitle,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.outfit(
+            fontSize: 28,
+            fontWeight: FontWeight.w800,
+            color: textColor,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          AppLocalizations.of(context)!.authCheckEmailDesc(_emailController.text),
+          textAlign: TextAlign.center,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            color: textColor.withValues(alpha: 0.6),
+          ),
+        ),
+        const SizedBox(height: 40),
+        ElevatedButton(
+          onPressed: () => context.pop(),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFF5B5C3),
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          child: Text(
+            AppLocalizations.of(context)!.authBackToLogin,
+            style: GoogleFonts.outfit(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

@@ -9,6 +9,7 @@ import 'settle_up_screen.dart';
 import 'widgets/member_balance_card.dart';
 import 'widgets/settlement_transfer_card.dart';
 import '../../../core/widgets/shimmer/skeletons/balances_shimmers.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class BalancesScreen extends ConsumerWidget {
   final String householdId;
@@ -29,8 +30,8 @@ class BalancesScreen extends ConsumerWidget {
     final members = membersAsync.asData?.value ?? [];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Balances & Settle Up'),
+      appBar: CommonAppBar(
+        titleText: 'Balances & Settle Up',
         actions: [
           IconButton(
             icon: const Icon(Icons.history_outlined),
@@ -94,6 +95,7 @@ class BalancesScreen extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: AppColors.positiveLight,
                       borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.positive.withValues(alpha: 0.3)),
                     ),
                     child: Row(
                       children: [

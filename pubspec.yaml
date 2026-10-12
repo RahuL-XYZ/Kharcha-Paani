@@ -2,7 +2,7 @@ name: kharcha_paani
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -50,6 +50,7 @@ dependencies:
   share_plus: ^13.3.0
   google_mobile_ads: ^9.1.0
   shimmer: ^3.0.0
+  fl_chart: ^0.70.2
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +87,8 @@ flutter:
 
   assets:
     - assets/icon/
+    - assets/onboarding_images/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

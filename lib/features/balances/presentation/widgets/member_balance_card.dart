@@ -74,7 +74,7 @@ class MemberBalanceCard extends StatelessWidget {
                               horizontal: 6, vertical: 1),
                           decoration: BoxDecoration(
                             color: AppColors.primaryLight,
-                            borderRadius: BorderRadius.circular(4),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           child: const Text(
                             'You',

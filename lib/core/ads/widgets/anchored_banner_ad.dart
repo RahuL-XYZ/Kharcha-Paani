@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../ad_helper.dart';
@@ -70,11 +69,13 @@ class _AnchoredBannerAdState extends State<AnchoredBannerAd> {
   @override
   Widget build(BuildContext context) {
     if (_bannerAd != null && _isLoaded) {
-      return Container(
-        color: Colors.transparent,
-        width: _bannerAd!.size.width.toDouble(),
-        height: _bannerAd!.size.height.toDouble(),
-        child: AdWidget(ad: _bannerAd!),
+      return RepaintBoundary(
+        child: Container(
+          color: Colors.transparent,
+          width: _bannerAd!.size.width.toDouble(),
+          height: _bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        ),
       );
     }
     

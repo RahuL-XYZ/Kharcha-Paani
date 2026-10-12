@@ -3,6 +3,7 @@ class AppConstants {
   static const String appTagline = 'Simple Roommate Expense Sharing';
   static const String currencySymbol = '₹';
   static const String appIconAsset = 'assets/icon/app_icon.png';
+  static const String appVersion = '1.0.0';
   static const int inviteCodeLength = 6;
   
   // Split Types

@@ -99,7 +99,7 @@ class _InlineNativeAdState extends State<InlineNativeAd> {
           margin: const EdgeInsets.symmetric(vertical: 8),
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
               width: 1,

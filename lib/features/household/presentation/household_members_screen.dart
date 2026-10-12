@@ -7,6 +7,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../providers/household_provider.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/widgets/shimmer/skeletons/members_settlements_shimmers.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class HouseholdMembersScreen extends ConsumerWidget {
   final String householdId;
@@ -24,8 +25,8 @@ class HouseholdMembersScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.hhMembersTitle),
+      appBar: CommonAppBar(
+        titleText: AppLocalizations.of(context)!.hhMembersTitle,
         actions: [
           householdAsync.when(
             data: (h) {
@@ -66,7 +67,7 @@ class HouseholdMembersScreen extends ConsumerWidget {
                       color: isDark
                           ? AppColors.surfaceVariantDark
                           : AppColors.primaryLight,
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(5),
                       border: Border.all(
                         color: isDark ? AppColors.borderDark : AppColors.primary.withValues(alpha: 0.2),
                       ),
@@ -179,7 +180,7 @@ class HouseholdMembersScreen extends ConsumerWidget {
                                 horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
                               color: AppColors.primaryLight,
-                              borderRadius: BorderRadius.circular(6),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
                               AppLocalizations.of(context)!.hhYouBadge,
@@ -212,7 +213,7 @@ class HouseholdMembersScreen extends ConsumerWidget {
                             : isDark
                                 ? AppColors.surfaceVariantDark
                                 : AppColors.surfaceVariantLight,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text(
                         member.isOwner ? AppLocalizations.of(context)!.hhOwnerRole : AppLocalizations.of(context)!.hhMemberRole,

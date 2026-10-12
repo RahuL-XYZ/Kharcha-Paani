@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kharcha_paani/l10n/app_localizations.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/common_app_bar.dart';
 import '../providers/household_provider.dart';
 
 class CreateHouseholdScreen extends ConsumerStatefulWidget {
@@ -76,8 +77,8 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
     final state = ref.watch(householdControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.hhCreateTitle),
+      appBar: CommonAppBar(
+        titleText: AppLocalizations.of(context)!.hhCreateTitle,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -91,7 +92,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: AppColors.primaryLight,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Row(
                     children: [
@@ -119,7 +120,7 @@ class _CreateHouseholdScreenState extends ConsumerState<CreateHouseholdScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppColors.negativeLight,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       state.errorMessage!,

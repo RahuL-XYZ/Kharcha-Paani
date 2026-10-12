@@ -67,7 +67,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceVariantDark : AppColors.surfaceLight,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: isDark ? AppColors.borderDark : AppColors.borderLight,
         ),
@@ -99,7 +99,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 child: Center(
                   child: Text(
@@ -169,7 +169,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
               color: isDark
                   ? Colors.white.withValues(alpha: 0.04)
                   : Colors.black.withValues(alpha: 0.03),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(5),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -209,7 +209,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
             decoration: BoxDecoration(
               color: statusBgColor,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(5),
               border: Border.all(color: statusBorderColor, width: 1.2),
             ),
             child: Row(
@@ -268,7 +268,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                     color: isDark
                         ? AppColors.surfaceDark
                         : AppColors.surfaceVariantLight,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,7 +300,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                     color: isDark
                         ? AppColors.surfaceDark
                         : AppColors.surfaceVariantLight,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,7 +341,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     textStyle: const TextStyle(
                       fontSize: 14,
@@ -360,7 +360,7 @@ class GroupHeaderSummaryCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     textStyle: const TextStyle(
                       fontSize: 14,

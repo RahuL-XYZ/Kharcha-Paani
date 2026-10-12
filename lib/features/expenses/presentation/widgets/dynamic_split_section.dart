@@ -253,7 +253,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
               ? AppColors.surfaceVariantDark
               : AppColors.surfaceVariantLight,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             side: BorderSide(
               color: isSelected
                   ? AppColors.primary
@@ -297,7 +297,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: isValid ? AppColors.primary.withValues(alpha: 0.1) : AppColors.negativeLight,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: isValid ? AppColors.primary : AppColors.negative,
               width: 1,
@@ -401,7 +401,7 @@ class _DynamicSplitSectionState extends State<DynamicSplitSection> {
           isDense: true,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           prefixText: widget.splitType == AppConstants.splitTypeExact ? '₹ ' : null,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
         ),
         onChanged: (val) {
           final parsed = double.tryParse(val) ?? 0.0;

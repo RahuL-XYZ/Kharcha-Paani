@@ -6,6 +6,7 @@ import '../../auth/providers/auth_provider.dart';
 import '../../household/providers/household_provider.dart';
 import '../../settlements/providers/settlement_provider.dart';
 import '../../../core/widgets/shimmer/skeletons/balances_shimmers.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class SettleUpScreen extends ConsumerStatefulWidget {
   final String householdId;
@@ -95,8 +96,8 @@ class _SettleUpScreenState extends ConsumerState<SettleUpScreen> {
     final actionState = ref.watch(settlementControllerProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Record Settlement'),
+      appBar: const CommonAppBar(
+        titleText: 'Record Settlement',
       ),
       body: membersAsync.when(
         data: (members) {
@@ -128,7 +129,7 @@ class _SettleUpScreenState extends ConsumerState<SettleUpScreen> {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: Row(
                         children: [
@@ -155,7 +156,7 @@ class _SettleUpScreenState extends ConsumerState<SettleUpScreen> {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: AppColors.negativeLight,
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
                           actionState.errorMessage!,

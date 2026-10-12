@@ -8,6 +8,7 @@ import '../../../core/routing/route_names.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/localization/locale_provider.dart';
 import '../../../core/widgets/app_logo.dart';
+import '../../../core/widgets/common_app_bar.dart';
 import '../../auth/providers/auth_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -115,8 +116,8 @@ class ProfileScreen extends ConsumerWidget {
         : '?';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.profileTitle),
+      appBar: CommonAppBar(
+        titleText: AppLocalizations.of(context)!.profileTitle,
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -129,7 +130,7 @@ class ProfileScreen extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 32,
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: const Color(0xFFF5B5C3),
                     foregroundColor: Colors.white,
                     child: Text(
                       initials,
@@ -304,7 +305,7 @@ class ProfileScreen extends ConsumerWidget {
                     showAboutDialog(
                       context: context,
                       applicationName: AppConstants.appName,
-                      applicationVersion: '1.0.0',
+                      applicationVersion: AppConstants.appVersion,
                       applicationLegalese: '© 2026 Kharcha Paani. All rights reserved.',
                       applicationIcon: const AppLogo(size: 40),
                     );
@@ -312,9 +313,12 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const Divider(height: 1),
                 ListTile(
-                  leading: const Icon(Icons.security_outlined, color: AppColors.primary),
-                  title: Text(AppLocalizations.of(context)!.profileSecurity),
-                  subtitle: Text(AppLocalizations.of(context)!.profileSecuritySub),
+                  leading: const Icon(Icons.verified_outlined, color: AppColors.primary),
+                  title: const Text('Version'),
+                  trailing: const Text(
+                    AppConstants.appVersion,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
                 ),
               ],
             ),

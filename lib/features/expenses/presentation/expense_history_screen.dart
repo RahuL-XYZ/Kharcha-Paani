@@ -11,9 +11,9 @@ import '../providers/expense_provider.dart';
 import 'add_edit_expense_screen.dart';
 import 'expense_detail_screen.dart';
 import 'widgets/expense_filter_dialog.dart';
-import '../../../core/ads/widgets/inline_native_ad.dart';
 import 'widgets/expense_list_tile.dart';
 import '../../../core/ads/widgets/anchored_banner_ad.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class ExpenseHistoryScreen extends ConsumerWidget {
   final String householdId;
@@ -45,8 +45,8 @@ class ExpenseHistoryScreen extends ConsumerWidget {
       ..sort((a, b) => b.compareTo(a));
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.expHistoryTitle),
+      appBar: CommonAppBar(
+        titleText: AppLocalizations.of(context)!.expHistoryTitle,
         actions: [
           IconButton(
             icon: Badge(
@@ -225,13 +225,9 @@ class ExpenseHistoryScreen extends ConsumerWidget {
                           ),
 
                           // Month Expenses
-                          ...monthExpenses.asMap().entries.map((entry) {
-                            final i = entry.key;
-                            final expense = entry.value;
+                          ...monthExpenses.map((expense) {
                             return Column(
                               children: [
-                                // Show an inline ad after every 5 expenses
-                                if (i > 0 && i % 5 == 0) const InlineNativeAd(),
                                 ExpenseListTile(
                                   expense: expense,
                                   members: members,

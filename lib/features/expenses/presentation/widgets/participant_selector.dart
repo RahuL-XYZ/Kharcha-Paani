@@ -93,7 +93,7 @@ class ParticipantSelector extends StatelessWidget {
                   ? AppColors.surfaceVariantDark
                   : AppColors.surfaceVariantLight,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(5),
                 side: BorderSide(
                   color: isSelected
                       ? AppColors.primary

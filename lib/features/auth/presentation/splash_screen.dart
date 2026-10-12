@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/widgets/app_logo.dart';
@@ -38,6 +39,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     );
 
     _animController.forward();
+    _checkInitialNavigation();
+  }
+
+  Future<void> _checkInitialNavigation() async {
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if (!mounted) return;
+    final prefs = await SharedPreferences.getInstance();
+    final onboardingDone = prefs.getBool('onboarding_completed') ?? false;
+    final authState = ref.read(authStateChangesProvider);
+    final isAuth = authState.asData?.value != null;
+
+    if (!onboardingDone && !isAuth) {
+      if (!mounted) return;
+      context.go(RouteNames.onboarding);
+    }
   }
 
   @override

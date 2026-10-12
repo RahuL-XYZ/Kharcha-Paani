@@ -35,7 +35,7 @@ class MemberBalanceListSection extends StatelessWidget {
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: const Icon(
                     Icons.account_balance_wallet_outlined,
@@ -115,7 +115,7 @@ class MemberBalanceListSection extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () => onTapMember(member),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(5),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   decoration: BoxDecoration(
@@ -126,7 +126,7 @@ class MemberBalanceListSection extends StatelessWidget {
                         : (isMe
                             ? AppColors.primaryLight.withValues(alpha: 0.15)
                             : AppColors.surfaceLight),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(5),
                     border: Border.all(
                       color: isMe
                           ? AppColors.primary.withValues(alpha: 0.45)
@@ -184,7 +184,7 @@ class MemberBalanceListSection extends StatelessWidget {
                                         horizontal: 6, vertical: 1.5),
                                     decoration: BoxDecoration(
                                       color: AppColors.primary,
-                                      borderRadius: BorderRadius.circular(6),
+                                      borderRadius: BorderRadius.circular(5),
                                     ),
                                     child: const Text(
                                       'You',

@@ -74,7 +74,7 @@ class ExpenseListTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(5),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
@@ -85,7 +85,7 @@ class ExpenseListTile extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: cat.color.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 child: Icon(cat.icon, color: cat.color, size: 22),
               ),

@@ -8,6 +8,7 @@ import '../../analytics/providers/analytics_provider.dart';
 import '../../expenses/providers/expense_provider.dart';
 import '../../../core/ads/widgets/anchored_banner_ad.dart';
 import '../../../core/widgets/shimmer/skeletons/analytics_shimmer.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class MonthlyAnalyticsScreen extends ConsumerWidget {
   final String householdId;
@@ -28,8 +29,8 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Spending Analytics'),
+      appBar: const CommonAppBar(
+        titleText: 'Spending Analytics',
       ),
       bottomNavigationBar: const AnchoredBannerAd(),
       body: expensesAsync.when(
@@ -82,7 +83,7 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
                   color: isDark
                       ? AppColors.surfaceVariantDark
                       : AppColors.primaryLight,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isDark
                         ? AppColors.borderDark
@@ -146,7 +147,7 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: cat.color.withValues(alpha: 0.15),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(5),
                               ),
                               child: Icon(cat.icon, color: cat.color, size: 18),
                             ),
@@ -172,7 +173,7 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 12),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(5),
                           child: LinearProgressIndicator(
                             value: (catSpending.percentage / 100).clamp(0.0, 1.0),
                             minHeight: 8,
@@ -229,7 +230,7 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: AppColors.secondaryContainer,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: const Icon(
                         Icons.calendar_month_outlined,

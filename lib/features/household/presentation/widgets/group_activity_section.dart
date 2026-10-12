@@ -30,7 +30,7 @@ class GroupActivitySection extends StatelessWidget {
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(5),
               ),
               child: const Icon(
                 Icons.history_rounded,
@@ -95,7 +95,7 @@ class GroupActivitySection extends StatelessWidget {
                 color: isDark
                     ? AppColors.surfaceVariantDark
                     : AppColors.surfaceLight,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(5),
                 border: Border.all(
                   color: isDark ? AppColors.borderDark : AppColors.borderLight,
                 ),
@@ -106,7 +106,7 @@ class GroupActivitySection extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: iconColor.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Icon(icon, size: 18, color: iconColor),
                   ),

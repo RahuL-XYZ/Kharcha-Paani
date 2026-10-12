@@ -13,6 +13,7 @@ import '../providers/expense_provider.dart';
 import 'widgets/category_chip_selector.dart';
 import 'widgets/dynamic_split_section.dart';
 import '../../../core/widgets/shimmer/app_shimmer.dart';
+import '../../../core/widgets/common_app_bar.dart';
 import '../../../core/widgets/shimmer/shimmer_placeholders.dart';
 
 class AddEditExpenseScreen extends ConsumerStatefulWidget {
@@ -200,8 +201,8 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
     final isEditing = widget.initialExpense != null;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(isEditing ? AppLocalizations.of(context)!.expEditTitle : AppLocalizations.of(context)!.expAddTitle),
+      appBar: CommonAppBar(
+        titleText: isEditing ? AppLocalizations.of(context)!.expEditTitle : AppLocalizations.of(context)!.expAddTitle,
       ),
       body: membersAsync.when(
         data: (members) {
@@ -225,7 +226,7 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppColors.negativeLight,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       actionState.errorMessage!,
@@ -376,7 +377,7 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(5),
                     border: Border.all(color: Theme.of(context).dividerColor),
                   ),
                   child: DropdownButtonHideUnderline(
@@ -457,7 +458,7 @@ class _AddEditExpenseScreenState extends ConsumerState<AddEditExpenseScreen> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(5),
                     side: BorderSide(color: Theme.of(context).dividerColor),
                   ),
                   leading: const Icon(Icons.calendar_today_outlined,

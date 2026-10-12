@@ -35,7 +35,7 @@ class WhoOwesWhomSection extends StatelessWidget {
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: const Icon(
                     Icons.swap_horizontal_circle_outlined,
@@ -60,7 +60,7 @@ class WhoOwesWhomSection extends StatelessWidget {
                   color: isDark
                       ? AppColors.surfaceVariantDark
                       : AppColors.surfaceVariantLight,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 child: Text(
                   '${debts.length} ${debts.length == 1 ? 'settlement' : 'settlements'}',
@@ -93,7 +93,7 @@ class WhoOwesWhomSection extends StatelessWidget {
               color: isDark
                   ? const Color(0xFF064E3B).withValues(alpha: 0.4)
                   : const Color(0xFFE8F5E9),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(5),
               border: Border.all(
                 color: AppColors.positive.withValues(alpha: 0.3),
               ),
@@ -190,7 +190,7 @@ class WhoOwesWhomSection extends StatelessWidget {
                       : (isMeInvolved
                           ? Colors.white
                           : AppColors.surfaceLight),
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isMeInvolved
                         ? AppColors.primary.withValues(alpha: 0.4)
@@ -364,7 +364,7 @@ class WhoOwesWhomSection extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                           ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                       ),

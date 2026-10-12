@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/analytics/presentation/monthly_analytics_screen.dart';
 import '../../features/auth/presentation/forgot_password_screen.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/auth/presentation/register_screen.dart';
 import '../../features/auth/presentation/splash_screen.dart';
 import '../../features/auth/providers/auth_provider.dart';
+import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/balances/presentation/settle_up_screen.dart';
 import '../../features/expenses/presentation/add_edit_expense_screen.dart';
 import '../../features/expenses/presentation/expense_detail_screen.dart';
@@ -25,8 +27,18 @@ class RouterNotifier extends ChangeNotifier {
   final Ref _ref;
   bool _isAuth = false;
   bool _isLoading = true;
+  bool _isOnboardingCompleted = false;
 
   RouterNotifier(this._ref) {
+    _init();
+  }
+
+  Future<void> _init() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _isOnboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
+    } catch (_) {}
+
     _ref.listen(authStateChangesProvider, (_, next) {
       _isLoading = next.isLoading;
       _isAuth = next.asData?.value != null;
@@ -36,6 +48,15 @@ class RouterNotifier extends ChangeNotifier {
 
   bool get isAuth => _isAuth;
   bool get isLoading => _isLoading;
+  bool get isOnboardingCompleted => _isOnboardingCompleted;
+
+  Future<void> refreshOnboardingStatus() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _isOnboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
+      notifyListeners();
+    } catch (_) {}
+  }
 }
 
 final routerNotifierProvider = Provider<RouterNotifier>((ref) {
@@ -51,21 +72,36 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final isAuth = notifier.isAuth;
       final isLoading = notifier.isLoading;
+      final isOnboardingCompleted = notifier.isOnboardingCompleted;
 
       final isSplash = state.matchedLocation == RouteNames.splash;
+      final isOnboarding = state.matchedLocation == RouteNames.onboarding;
       final isAuthRoute = state.matchedLocation == RouteNames.login ||
           state.matchedLocation == RouteNames.register ||
           state.matchedLocation == RouteNames.forgotPassword;
 
       if (isLoading && isSplash) {
-        return null; // Stay on splash while loading
+        return null; // Stay on splash while loading auth state
       }
 
-      if (!isAuth && !isAuthRoute) {
-        return RouteNames.login;
+      if (!isAuth) {
+        // Unauthenticated user flow:
+        if (!isOnboardingCompleted) {
+          // Force onboarding if not completed yet
+          if (!isOnboarding) {
+            return RouteNames.onboarding;
+          }
+          return null; // Stay on onboarding route
+        }
+
+        // Onboarding is completed: force login if attempting to access protected route or splash/onboarding
+        if (!isAuthRoute) {
+          return RouteNames.login;
+        }
+        return null;
       }
 
-      if (isAuth && (isAuthRoute || isSplash)) {
+      if (isAuth && (isAuthRoute || isSplash || isOnboarding)) {
         return RouteNames.home;
       }
 
@@ -75,6 +111,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.splash,
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.onboarding,
+        builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
         path: RouteNames.login,

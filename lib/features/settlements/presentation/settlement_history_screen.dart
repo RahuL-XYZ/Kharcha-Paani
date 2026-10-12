@@ -7,6 +7,7 @@ import '../../../models/household_member_model.dart';
 import '../../household/providers/household_provider.dart';
 import '../../settlements/providers/settlement_provider.dart';
 import '../../../core/widgets/shimmer/skeletons/members_settlements_shimmers.dart';
+import '../../../core/widgets/common_app_bar.dart';
 
 class SettlementHistoryScreen extends ConsumerWidget {
   final String householdId;
@@ -25,8 +26,8 @@ class SettlementHistoryScreen extends ConsumerWidget {
     final members = membersAsync.asData?.value ?? [];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settlement History'),
+      appBar: const CommonAppBar(
+        titleText: 'Settlement History',
       ),
       body: settlementsAsync.when(
         data: (settlements) {

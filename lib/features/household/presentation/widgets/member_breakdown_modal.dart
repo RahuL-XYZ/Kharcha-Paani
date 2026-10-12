@@ -59,7 +59,7 @@ class MemberBreakdownModal extends ConsumerWidget {
       ),
       decoration: BoxDecoration(
         color: isDark ? AppColors.surfaceDark : Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -71,7 +71,7 @@ class MemberBreakdownModal extends ConsumerWidget {
             height: 4,
             decoration: BoxDecoration(
               color: Colors.grey.shade400.withValues(alpha: 0.6),
-              borderRadius: BorderRadius.circular(2),
+              borderRadius: BorderRadius.circular(5),
             ),
           ),
 
@@ -150,7 +150,7 @@ class MemberBreakdownModal extends ConsumerWidget {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: statusBgColor,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(5),
                         border: Border.all(
                           color: statusTextColor.withValues(alpha: 0.3),
                         ),
@@ -214,7 +214,7 @@ class MemberBreakdownModal extends ConsumerWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 14, vertical: 8),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                               ),
                               child: const Text('Settle'),
@@ -262,7 +262,7 @@ class MemberBreakdownModal extends ConsumerWidget {
                             color: isDark
                                 ? AppColors.surfaceVariantDark
                                 : AppColors.surfaceVariantLight,
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                           child: Row(
                             children: [
@@ -272,7 +272,7 @@ class MemberBreakdownModal extends ConsumerWidget {
                                   color: item.isSettlement
                                       ? AppColors.primary.withValues(alpha: 0.12)
                                       : (isDark ? Colors.black26 : Colors.white),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
                                 child: Icon(
                                   item.isSettlement

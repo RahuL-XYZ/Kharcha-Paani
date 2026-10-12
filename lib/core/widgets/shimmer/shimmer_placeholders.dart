@@ -26,7 +26,7 @@ class ShimmerBox extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: Colors.white, // Color is masked by Shimmer.fromColors
-        borderRadius: borderRadius ?? BorderRadius.circular(16),
+        borderRadius: borderRadius ?? BorderRadius.circular(5),
       ),
     );
   }
@@ -80,7 +80,7 @@ class ShimmerLine extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: borderRadius ?? BorderRadius.circular(6),
+        borderRadius: borderRadius ?? BorderRadius.circular(5),
       ),
     );
   }
