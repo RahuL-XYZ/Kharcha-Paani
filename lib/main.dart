@@ -7,9 +7,8 @@ import 'core/constants/app_constants.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kharcha_paani/l10n/app_localizations.dart';
 import 'core/localization/locale_provider.dart';
+import 'core/ads/ad_helper.dart';
 import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +22,7 @@ void main() async {
     debugPrint('Firebase initialization notice: $e');
   }
 
-  // Initialize Google Mobile Ads SDK
+  // Initialize Google Mobile Ads SDK (needed to prevent native GoogleApi deadlock)
   try {
     await MobileAds.instance.initialize();
   } catch (e) {

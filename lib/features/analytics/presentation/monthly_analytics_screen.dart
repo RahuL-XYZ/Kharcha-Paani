@@ -7,6 +7,7 @@ import '../../../core/utils/date_formatter.dart';
 import '../../analytics/providers/analytics_provider.dart';
 import '../../expenses/providers/expense_provider.dart';
 import '../../../core/ads/widgets/anchored_banner_ad.dart';
+import '../../../core/ads/ad_helper.dart';
 import '../../../core/widgets/shimmer/skeletons/analytics_shimmer.dart';
 import '../../../core/widgets/common_app_bar.dart';
 
@@ -32,7 +33,8 @@ class MonthlyAnalyticsScreen extends ConsumerWidget {
       appBar: const CommonAppBar(
         titleText: 'Spending Analytics',
       ),
-      bottomNavigationBar: const AnchoredBannerAd(),
+      bottomNavigationBar:
+          AdHelper.isAdsEnabled ? const AnchoredBannerAd() : null,
       body: expensesAsync.when(
         data: (expenses) {
           if (expenses.isEmpty) {

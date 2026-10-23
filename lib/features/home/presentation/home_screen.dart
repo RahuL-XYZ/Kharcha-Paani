@@ -11,6 +11,7 @@ import 'widgets/empty_household_view.dart';
 import 'widgets/home_header_widget.dart';
 import 'widgets/household_card.dart';
 import '../../../core/ads/widgets/anchored_banner_ad.dart';
+import '../../../core/ads/ad_helper.dart';
 import '../../../core/widgets/shimmer/skeletons/home_screen_shimmer.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -40,7 +41,8 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       // No AppBar — the gradient header is inline in the body
       extendBodyBehindAppBar: false,
-      bottomNavigationBar: const AnchoredBannerAd(),
+      bottomNavigationBar:
+          AdHelper.isAdsEnabled ? const AnchoredBannerAd() : null,
       body: householdsAsync.when(
         data: (households) {
           if (households.isEmpty) {

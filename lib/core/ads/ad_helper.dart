@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 class AdHelper {
+  /// Master toggle to enable or disable ads throughout the entire app
+  static const bool isAdsEnabled = false;
+
   /// Returns the Adaptive Banner Ad Unit ID
   static String get bannerAdUnitId {
     if (kDebugMode) {

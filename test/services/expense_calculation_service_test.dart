@@ -536,6 +536,54 @@ void main() {
       // Neha paid 0, share 300 -> net -300
       expect(balances['neha']?.netBalancePaise, -30000);
     });
+
+    test('Calculates 70 / 140 split between 2 members correctly', () {
+      final expense = ExpenseModel(
+        id: 'e_custom_two',
+        title: 'Bill',
+        amount: 210.0,
+        category: 'Food',
+        paidBy: 'user1',
+        participants: ['user1', 'user2'],
+        splitType: 'exact',
+        splitAmounts: {
+          'user1': 70.0,
+          'user2': 140.0,
+        },
+        date: DateTime.now(),
+        createdBy: 'user1',
+        createdAt: DateTime.now(),
+      );
+
+      final shares = ExpenseCalculationService.calculateExpenseShares(expense);
+      expect(shares.length, 2);
+      expect(shares.firstWhere((s) => s.userId == 'user1').amountPaise, 7000);
+      expect(shares.firstWhere((s) => s.userId == 'user2').amountPaise, 14000);
+    });
+
+    test('Calculates shares by ratio (shares split type) correctly', () {
+      final expense = ExpenseModel(
+        id: 'e_shares',
+        title: 'Rent',
+        amount: 300.0,
+        category: 'Rent',
+        paidBy: 'user1',
+        participants: ['user1', 'user2'],
+        splitType: 'shares',
+        splitAmounts: {
+          'user1': 1.0,
+          'user2': 2.0,
+        },
+        date: DateTime.now(),
+        createdBy: 'user1',
+        createdAt: DateTime.now(),
+      );
+
+      final shares = ExpenseCalculationService.calculateExpenseShares(expense);
+      expect(shares.length, 2);
+      expect(shares.firstWhere((s) => s.userId == 'user1').amountPaise, 10000); // 1/3 of 300 = 100
+      expect(shares.firstWhere((s) => s.userId == 'user2').amountPaise, 20000); // 2/3 of 300 = 200
+    });
   });
 
   group('ExpenseCalculationService - Pairwise Breakdown', () {

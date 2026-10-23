@@ -34,10 +34,7 @@ class ExpenseDetailTab extends StatelessWidget {
       ),
     );
 
-    final shares = ExpenseCalculationService.calculateEqualSplit(
-      amountPaise: expense.amountPaise,
-      participantIds: expense.participants,
-    );
+    final shares = ExpenseCalculationService.calculateExpenseShares(expense);
 
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

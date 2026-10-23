@@ -24,6 +24,8 @@ class _AnchoredBannerAdState extends State<AnchoredBannerAd> {
   }
 
   Future<void> _loadAd() async {
+    if (!AdHelper.isAdsEnabled) return;
+
     // Get an AnchoredAdaptiveBannerAdSize before loading the ad.
     final AnchoredAdaptiveBannerAdSize? size =
         await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
@@ -68,6 +70,10 @@ class _AnchoredBannerAdState extends State<AnchoredBannerAd> {
 
   @override
   Widget build(BuildContext context) {
+    if (!AdHelper.isAdsEnabled) {
+      return const SizedBox.shrink();
+    }
+
     if (_bannerAd != null && _isLoaded) {
       return RepaintBoundary(
         child: Container(

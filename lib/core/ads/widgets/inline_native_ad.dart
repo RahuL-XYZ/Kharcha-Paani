@@ -24,6 +24,8 @@ class _InlineNativeAdState extends State<InlineNativeAd> {
   }
 
   void _loadAd() {
+    if (!AdHelper.isAdsEnabled) return;
+
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     _nativeAd = NativeAd(
@@ -87,6 +89,10 @@ class _InlineNativeAdState extends State<InlineNativeAd> {
 
   @override
   Widget build(BuildContext context) {
+    if (!AdHelper.isAdsEnabled) {
+      return const SizedBox.shrink();
+    }
+
     if (_nativeAd != null && _isLoaded) {
       // The NativeTemplateStyle small usually takes around 90-120px height
       return ConstrainedBox(

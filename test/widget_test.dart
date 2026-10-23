@@ -5,6 +5,11 @@ import 'package:kharcha_paani/features/home/presentation/widgets/empty_household
 import 'package:kharcha_paani/features/household/presentation/widgets/group_header_summary_card.dart';
 import 'package:kharcha_paani/features/household/presentation/widgets/who_owes_whom_section.dart';
 import 'package:kharcha_paani/models/household_model.dart';
+import 'package:kharcha_paani/models/household_member_model.dart';
+import 'package:kharcha_paani/models/expense_model.dart';
+import 'package:kharcha_paani/features/expenses/presentation/widgets/expense_detail_tab.dart';
+import 'package:kharcha_paani/features/expenses/presentation/widgets/expense_report_tab.dart';
+import 'package:kharcha_paani/l10n/app_localizations.dart';
 import 'package:kharcha_paani/services/expense_calculation_service.dart';
 
 void main() {
@@ -12,6 +17,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme: AppTheme.lightTheme,
         home: const Scaffold(
           body: EmptyHouseholdView(),
@@ -46,6 +53,8 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme: AppTheme.lightTheme,
         home: Scaffold(
           body: GroupHeaderSummaryCard(
@@ -85,5 +94,85 @@ void main() {
 
     expect(find.text('Who Owes Whom'), findsOneWidget);
     expect(find.text('Everyone is settled up! 🎉'), findsOneWidget);
+  });
+
+  testWidgets('ExpenseDetailTab renders custom split properly',
+      (WidgetTester tester) async {
+    final expense = ExpenseModel(
+      id: 'e1',
+      title: 'Dinner',
+      amount: 210.0,
+      category: 'Food',
+      paidBy: 'u1',
+      participants: ['u1', 'u2'],
+      splitType: 'exact',
+      splitAmounts: {'u1': 70.0, 'u2': 140.0},
+      date: DateTime.now(),
+      createdBy: 'u1',
+      createdAt: DateTime.now(),
+    );
+
+    final members = [
+      HouseholdMemberModel(id: 'u1', name: 'Rahul', joinedAt: DateTime.now()),
+      HouseholdMemberModel(id: 'u2', name: 'Friend', joinedAt: DateTime.now()),
+    ];
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: ExpenseDetailTab(
+            expense: expense,
+            members: members,
+            currentUserId: 'u1',
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Dinner'), findsOneWidget);
+    expect(find.text('₹70'), findsOneWidget);
+    expect(find.text('₹140'), findsOneWidget);
+  });
+
+  testWidgets('ExpenseReportTab renders donut chart without error',
+      (WidgetTester tester) async {
+    final expense = ExpenseModel(
+      id: 'e1',
+      title: 'Dinner',
+      amount: 210.0,
+      category: 'Food',
+      paidBy: 'u1',
+      participants: ['u1', 'u2'],
+      splitType: 'exact',
+      splitAmounts: {'u1': 70.0, 'u2': 140.0},
+      date: DateTime.now(),
+      createdBy: 'u1',
+      createdAt: DateTime.now(),
+    );
+
+    final members = [
+      HouseholdMemberModel(id: 'u1', name: 'Rahul', joinedAt: DateTime.now()),
+      HouseholdMemberModel(id: 'u2', name: 'Friend', joinedAt: DateTime.now()),
+    ];
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: ExpenseReportTab(
+            expense: expense,
+            members: members,
+            currentUserId: 'u1',
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Expense Report'), findsOneWidget);
   });
 }

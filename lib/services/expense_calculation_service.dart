@@ -1,6 +1,7 @@
 import '../models/expense_model.dart';
 import '../models/household_member_model.dart';
 import '../models/settlement_model.dart';
+import '../core/constants/app_constants.dart';
 import '../core/utils/currency_formatter.dart';
 
 class SplitShare {
@@ -251,11 +252,31 @@ class ExpenseCalculationService {
 
     if (expense.splitAmounts != null && expense.splitAmounts!.isNotEmpty) {
       final List<SplitShare> shares = [];
-      for (final p in expense.participants) {
-        final val = expense.splitAmounts![p];
-        final pPaise = val != null ? CurrencyFormatter.toPaise(val) : 0;
-        shares.add(SplitShare(userId: p, amountPaise: pPaise));
+
+      if (expense.splitType == AppConstants.splitTypeShares) {
+        final double totalShares =
+            expense.splitAmounts!.values.fold(0.0, (sum, val) => sum + val);
+        for (final p in expense.participants) {
+          final val = expense.splitAmounts![p] ?? 0.0;
+          final pPaise = totalShares > 0
+              ? ((amountPaise * val) / totalShares).round()
+              : 0;
+          shares.add(SplitShare(userId: p, amountPaise: pPaise));
+        }
+      } else if (expense.splitType == AppConstants.splitTypePercentage) {
+        for (final p in expense.participants) {
+          final val = expense.splitAmounts![p] ?? 0.0;
+          final pPaise = ((amountPaise * val) / 100.0).round();
+          shares.add(SplitShare(userId: p, amountPaise: pPaise));
+        }
+      } else {
+        for (final p in expense.participants) {
+          final val = expense.splitAmounts![p];
+          final pPaise = val != null ? CurrencyFormatter.toPaise(val) : 0;
+          shares.add(SplitShare(userId: p, amountPaise: pPaise));
+        }
       }
+
       // Ensure sum equals amountPaise if there's any minor paise rounding discrepancy
       final int totalSharesPaise =
           shares.fold(0, (sum, s) => sum + s.amountPaise);

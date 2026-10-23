@@ -13,6 +13,7 @@ import 'expense_detail_screen.dart';
 import 'widgets/expense_filter_dialog.dart';
 import 'widgets/expense_list_tile.dart';
 import '../../../core/ads/widgets/anchored_banner_ad.dart';
+import '../../../core/ads/ad_helper.dart';
 import '../../../core/widgets/common_app_bar.dart';
 
 class ExpenseHistoryScreen extends ConsumerWidget {
@@ -67,7 +68,8 @@ class ExpenseHistoryScreen extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-      bottomNavigationBar: const AnchoredBannerAd(),
+      bottomNavigationBar:
+          AdHelper.isAdsEnabled ? const AnchoredBannerAd() : null,
       body: Column(
         children: [
           // Search Bar

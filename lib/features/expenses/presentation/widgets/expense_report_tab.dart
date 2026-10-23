@@ -41,10 +41,7 @@ class _ExpenseReportTabState extends State<ExpenseReportTab> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final shares = ExpenseCalculationService.calculateEqualSplit(
-      amountPaise: widget.expense.amountPaise,
-      participantIds: widget.expense.participants,
-    );
+    final shares = ExpenseCalculationService.calculateExpenseShares(widget.expense);
 
     final totalPaise = widget.expense.amountPaise;
 
